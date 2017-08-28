@@ -99,8 +99,6 @@ void Player::update(){
         }
         playerAttackCounter++;
     }
-    std::cout << playerAttackCounter << std::endl;
-    
 }
 
 bool Player::getIsAttacked(){

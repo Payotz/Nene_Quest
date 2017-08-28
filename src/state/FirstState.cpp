@@ -7,6 +7,9 @@ glm::vec2 pos;
 glm::vec2 size;
 glm::vec3 color;
 
+glm::vec2 skypos;
+glm::vec2 mountainpos;
+
 glm::vec2 velocity;
 
 int currentEnemy;
@@ -14,6 +17,9 @@ int currentEnemy;
 FirstState::FirstState(){
     velocity.x = 0;
     velocity.y = 0;
+    skypos = glm::vec2(0,200);
+    mountainpos = glm::vec2(0,300);
+
     currentEnemy = 1;
 }
 
@@ -48,11 +54,13 @@ void FirstState::onEnter(){
     GameObjectManager::getInstance()->getGameObject("Dragon")->setHP(800);
 
     TextureManager::getInstance()->addSprite("Sky",true);
+    TextureManager::getInstance()->addSprite("Mountain",true);
     TextureManager::getInstance()->addSprite("Ground",true);
     TextureManager::getInstance()->addSprite("PlayerICON",true);
     TextureManager::getInstance()->addSprite("BoarICON",true);
     TextureManager::getInstance()->addSprite("DragonICON",true);
     TextureManager::getInstance()->getSprite("Sky")->initialize("img/sky.png","shader/Shader.vert","shader/bground.frag",false);
+    TextureManager::getInstance()->getSprite("Mountain")->initialize("img/mountain.png","shader/Shader.vert","shader/Shader.frag",false);
     TextureManager::getInstance()->getSprite("Ground")->initialize("img/ground.png","shader/Shader.vert","shader/bground.frag",false);
     TextureManager::getInstance()->getSprite("PlayerICON")->initialize("img/pink_knight_icon.png","shader/Shader.vert","shader/Shader.frag",false);
     TextureManager::getInstance()->getSprite("BoarICON")->initialize("img/boar.png","shader/Shader.vert","shader/Shader.frag",false);
@@ -104,7 +112,8 @@ void FirstState::render(){
     if(PlayerHPvalue < 0)
         PlayerHPvalue = 0;
 
-    TextureManager::getInstance()->getSprite("Sky")->Draw(glm::vec2(0,0),glm::vec2(2000,600),0,color,0);
+    TextureManager::getInstance()->getSprite("Sky")->Draw(skypos,glm::vec2(2000,600),0,color,0);
+    TextureManager::getInstance()->getSprite("Mountain")->Draw(mountainpos,glm::vec2(2000,400),0,color,0);
     TextureManager::getInstance()->getSprite("Ground")->Draw(glm::vec2(0,500),glm::vec2(2000,400),0,color,0);
     if(currentEnemy == 1){
         auto EnemyHPvalue = GameObjectManager::getInstance()->getGameObject("Boar1")->getHP();
@@ -121,8 +130,8 @@ void FirstState::render(){
         }
     }else{
         auto EnemyHPvalue = GameObjectManager::getInstance()->getGameObject("Dragon")->getHP();
-        auto PlayerPosition = GameObjectManager::getInstance()->getGameObject("Player")->getPosition();
-        auto DragonPosition = GameObjectManager::getInstance()->getGameObject("Dragon")->getPosition();
+        glm::vec2 PlayerPosition = GameObjectManager::getInstance()->getGameObject("Player")->getPosition();
+        glm::vec2 DragonPosition = GameObjectManager::getInstance()->getGameObject("Dragon")->getPosition();
         
         if(PlayerPosition.y > DragonPosition.y){
             GameObjectManager::getInstance()->getGameObject("Dragon")->render();
@@ -158,10 +167,11 @@ void FirstState::update(){
             }
         }
         else if(GameObjectManager::getInstance()->getGameObject("Player")->getCurrentState() == 1){
-            //if(GameObjectManager::getInstance()->getGameObject("Player")->isCollidingWith(GameObjectManager::getInstance()->getGameObject("Boar1")->getRect(),glm::vec2(0,0)))
-            if(!GameObjectManager::getInstance()->getGameObject("Boar1")->getIsAttacked()){
-                GameObjectManager::getInstance()->getGameObject("Boar1")->setHP(GameObjectManager::getInstance()->getGameObject("Boar1")->getHP() - 100);
-                GameObjectManager::getInstance()->getGameObject("Boar1")->setIsAttacked(true);
+            if(GameObjectManager::getInstance()->getGameObject("Boar1")->isCollidingWith(GameObjectManager::getInstance()->getGameObject("Player")->getRect(),glm::vec2(-100,0))){
+                if(!GameObjectManager::getInstance()->getGameObject("Boar1")->getIsAttacked()){
+                    GameObjectManager::getInstance()->getGameObject("Boar1")->setHP(GameObjectManager::getInstance()->getGameObject("Boar1")->getHP() - 100);
+                    GameObjectManager::getInstance()->getGameObject("Boar1")->setIsAttacked(true);
+                }
             }
         }
         GameObjectManager::getInstance()->getGameObject("Boar1")->update();
@@ -176,16 +186,26 @@ void FirstState::update(){
                 }
             }
             else if(GameObjectManager::getInstance()->getGameObject("Player")->getCurrentState() == 1){
-                //if(GameObjectManager::getInstance()->getGameObject("Player")->isCollidingWith(GameObjectManager::getInstance()->getGameObject("Dragon")->getRect(),glm::vec2(0,0)))
-                if(!GameObjectManager::getInstance()->getGameObject("Dragon")->getIsAttacked()){
-                    GameObjectManager::getInstance()->getGameObject("Dragon")->setHP(GameObjectManager::getInstance()->getGameObject("Dragon")->getHP() - 25);
-                    GameObjectManager::getInstance()->getGameObject("Dragon")->setIsAttacked(true);
+                if(GameObjectManager::getInstance()->getGameObject("Dragon")->isCollidingWith(GameObjectManager::getInstance()->getGameObject("Player")->getRect(),glm::vec2(-100,0))){
+                    if(!GameObjectManager::getInstance()->getGameObject("Dragon")->getIsAttacked()){
+                        GameObjectManager::getInstance()->getGameObject("Dragon")->setHP(GameObjectManager::getInstance()->getGameObject("Dragon")->getHP() - 25);
+                        GameObjectManager::getInstance()->getGameObject("Dragon")->setIsAttacked(true);
+                    }
                 }
             }
             GameObjectManager::getInstance()->getGameObject("Dragon")->update();
         }
     }
     GameObjectManager::getInstance()->getGameObject("Player")->update();
+    if(skypos.x < 0)
+        skypos.x = 1000;
+    else
+        skypos.x -= 1;
+
+    if(mountainpos.x < 0)
+        mountainpos.x = 800;
+    else
+        mountainpos.x -= 5;
 }
 
 void FirstState::exit(){
