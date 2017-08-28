@@ -1,6 +1,4 @@
-#ifndef TEXMAN__
-#define TEXMAN__
-
+#pragma once
 #include <iostream>
 #include <map>
 #include <memory>
@@ -39,6 +37,3 @@ class TextureManager{
         TextureManager() {}
         ~TextureManager() {}
 };
-
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef STATEMAC__
-#define STATEMAC__
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -28,5 +27,3 @@ class StateMachine{
         ~StateMachine(){};
         static std::map<std::string, State*> state_list;
 };
-
-#endif

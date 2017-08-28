@@ -10,6 +10,10 @@ glm::vec3 color;
 glm::vec2 skypos;
 glm::vec2 mountainpos;
 
+int boarState;
+int boarChargeCounter;
+int dragonState;
+
 glm::vec2 velocity;
 
 int currentEnemy;
@@ -17,6 +21,9 @@ int currentEnemy;
 FirstState::FirstState(){
     velocity.x = 0;
     velocity.y = 0;
+    boarState = 0;
+    boarChargeCounter = 0;
+    dragonState = 0;
     skypos = glm::vec2(0,200);
     mountainpos = glm::vec2(0,300);
 
@@ -56,12 +63,15 @@ void FirstState::onEnter(){
     TextureManager::getInstance()->addSprite("Sky",true);
     TextureManager::getInstance()->addSprite("Mountain",true);
     TextureManager::getInstance()->addSprite("Ground",true);
+
     TextureManager::getInstance()->addSprite("PlayerICON",true);
     TextureManager::getInstance()->addSprite("BoarICON",true);
     TextureManager::getInstance()->addSprite("DragonICON",true);
+
     TextureManager::getInstance()->getSprite("Sky")->initialize("img/sky.png","shader/Shader.vert","shader/bground.frag",false);
     TextureManager::getInstance()->getSprite("Mountain")->initialize("img/mountain.png","shader/Shader.vert","shader/Shader.frag",false);
     TextureManager::getInstance()->getSprite("Ground")->initialize("img/ground.png","shader/Shader.vert","shader/bground.frag",false);
+
     TextureManager::getInstance()->getSprite("PlayerICON")->initialize("img/pink_knight_icon.png","shader/Shader.vert","shader/Shader.frag",false);
     TextureManager::getInstance()->getSprite("BoarICON")->initialize("img/boar.png","shader/Shader.vert","shader/Shader.frag",false);
     TextureManager::getInstance()->getSprite("DragonICON")->initialize("img/dragon.png","shader/Shader.vert","shader/Shader.frag",false);
@@ -79,15 +89,16 @@ void FirstState::onEnter(){
 
 void FirstState::handleEvents(){
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
+    const int playerMove = 9;
     if(GameObjectManager::getInstance()->getGameObject("Player")->getCurrentState() == 0){
         if(keystate[SDL_SCANCODE_DOWN])
-            velocity.y = 5;
+            velocity.y = playerMove;
         if(keystate[SDL_SCANCODE_UP])
-            velocity.y = -5;
+            velocity.y = playerMove * -1;
         if(keystate[SDL_SCANCODE_RIGHT])
-            velocity.x = 5;
+            velocity.x = playerMove;
         if(keystate[SDL_SCANCODE_LEFT])
-            velocity.x = -5;
+            velocity.x = playerMove * -1;
         if(keystate[SDL_SCANCODE_Z]){
             velocity.x = velocity.y = 0;
             GameObjectManager::getInstance()->getGameObject("Player")->changeState(1);
@@ -152,8 +163,18 @@ void FirstState::render(){
 void FirstState::update(){
     color.x = color.y = color.z = 0.0;
     restartFlag = false;
+
     GameObjectManager::getInstance()->getGameObject("Player")->move(velocity);
     if(currentEnemy == 1){
+            GameObjectManager::getInstance()->getGameObject("Boar1")->move(glm::vec2(-35,0));   
+        
+        if(GameObjectManager::getInstance()->getGameObject("Boar1")->getPosition().x < 0){
+            if(boarChargeCounter >= 60){
+                GameObjectManager::getInstance()->getGameObject("Boar1")->setPosition(glm::vec2(1000,GameObjectManager::getInstance()->getGameObject("Player")->getPosition().y));
+                boarChargeCounter = 0;
+            }
+        }
+        boarChargeCounter++;
         if(GameObjectManager::getInstance()->getGameObject("Boar1")->getHP() <= 0){
             currentEnemy++;
             GameObjectManager::getInstance()->getGameObject("Dragon")->setIsAttacked(true);

@@ -60,7 +60,7 @@ void Texture::addSubTextureIntoMap(std::string texName, std::string path){
         std::cout << "[ERROR]Texture::addSubTextureIntoMap() : SubTextures Not Enabled for this texture " << std::endl;
         return;
     }
-    std::cout << "[INFORMATION]Texture::addSubTexture() : Adding Subtexture: " << path << "With Key Name " << texName << std::endl;
+    std::cout << "[INFORMATION]Texture::addSubTexture() : Adding Subtexture: " << path << std::endl;
     subtexture_map[texName] = IMG_Load(path.c_str());
     int errCode = glGetError();
     if(errCode)

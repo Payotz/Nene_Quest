@@ -1,5 +1,4 @@
-#ifndef FIRSTSTATE__
-#define FIRSTSTATE__
+#pragma once
 
 #include <SDL2/SDL.h>
 
@@ -25,4 +24,3 @@ class FirstState : public State{
         static bool isRunning;
 };
 
-#endif

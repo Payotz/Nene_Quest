@@ -1,5 +1,4 @@
-#ifndef STATE__
-#define STATE__
+#pragma once
 
 class State{
 
@@ -16,5 +15,3 @@ class State{
         bool restartFlag;
         bool isRunning;
 };
-
-#endif

@@ -29,7 +29,7 @@ void Enemy::render(){
     TextureManager::getInstance()->getSprite(this->spriteName)->Draw(position,size,0,color,0);
 }
 void Enemy::move(glm::vec2 pos){
-
+    position += pos;
 }
 void Enemy::changeState(int state){
     this->currentState = state;

@@ -30,6 +30,7 @@ void Game::initialize(){
     context = SDL_GL_CreateContext(window);
     if(context == NULL){
         std::cout << "Context not created! : " << SDL_GetError() << std::endl;
+        isRunning = false;
         return;
     }
 
@@ -38,6 +39,7 @@ void Game::initialize(){
         std::cout << "GL3W cannot be initialized! : " << std::endl;
         return;
     }
+    std::cout << "[INFORMATION]OpenGL Version supported : " << glGetString(GL_VERSION) << std::endl;
     SDL_GL_SetSwapInterval(1);
     isRunning = true;
     StateMachine::getInstance()->initialize();

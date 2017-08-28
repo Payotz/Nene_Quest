@@ -1,5 +1,4 @@
-#ifndef GAMEOBJ_MAN__
-#define GAMEOBJ_MAN__
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -19,5 +18,3 @@ class GameObjectManager{
     private:
         static std::map<std::string, GameObject*> gameobj_list;
 };
-
-#endif
