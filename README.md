@@ -1,6 +1,8 @@
 NENE Quest
 ==================
 
+![Screenshot](http://i.imgur.com/NhP9gp1.png)
+
 ## What is this?
 This is my attempt at recreating "Nene Quest", a video game made by the anime character "Sakura Nene". I wrote this to learn more about OpenGL, SDL and C++.
 
