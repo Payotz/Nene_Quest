@@ -1,5 +1,9 @@
 #include "FirstState.h"
 
+/*TODO: Implement Better Dragon fire
+* TODO: Implement Dragon AI
+*/
+
 bool FirstState::isRunning = true;
 bool FirstState::restartFlag = false;
 
@@ -68,6 +72,18 @@ void FirstState::onEnter(){
     TextureManager::getInstance()->addSprite("BoarICON",true);
     TextureManager::getInstance()->addSprite("DragonICON",true);
 
+    TextureManager::getInstance()->addSprite("Fire1",true);
+    TextureManager::getInstance()->addSprite("Fire2",true);
+    TextureManager::getInstance()->addSprite("Fire3",true);
+    TextureManager::getInstance()->addSprite("Fire4",true);
+    TextureManager::getInstance()->addSprite("Fire5",true);
+
+    TextureManager::getInstance()->getSprite("Fire1")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+    TextureManager::getInstance()->getSprite("Fire2")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+    TextureManager::getInstance()->getSprite("Fire3")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+    TextureManager::getInstance()->getSprite("Fire4")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+    TextureManager::getInstance()->getSprite("Fire5")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+
     TextureManager::getInstance()->getSprite("Sky")->initialize("img/sky.png","shader/Shader.vert","shader/bground.frag",false);
     TextureManager::getInstance()->getSprite("Mountain")->initialize("img/mountain.png","shader/Shader.vert","shader/Shader.frag",false);
     TextureManager::getInstance()->getSprite("Ground")->initialize("img/ground.png","shader/Shader.vert","shader/bground.frag",false);
@@ -130,8 +146,6 @@ void FirstState::render(){
         auto EnemyHPvalue = GameObjectManager::getInstance()->getGameObject("Boar1")->getHP();
         glm::vec2 PlayerPosition = GameObjectManager::getInstance()->getGameObject("Player")->getPosition();
         glm::vec2 BoarPosition = GameObjectManager::getInstance()->getGameObject("Boar1")->getPosition();
-        TextureManager::getInstance()->getRectangle("EnemyHP")->Draw(glm::vec2(0,550),glm::vec2(EnemyHPvalue,50),0,glm::vec4(255,0,0,255),0);
-        TextureManager::getInstance()->getSprite("BoarICON")->Draw(glm::vec2(20,550),glm::vec2(32,32),0,color,0);
         if(PlayerPosition.y > BoarPosition.y){
             GameObjectManager::getInstance()->getGameObject("Boar1")->render();
             GameObjectManager::getInstance()->getGameObject("Player")->render();
@@ -139,10 +153,14 @@ void FirstState::render(){
             GameObjectManager::getInstance()->getGameObject("Player")->render();
             GameObjectManager::getInstance()->getGameObject("Boar1")->render();
         }
+        TextureManager::getInstance()->getRectangle("EnemyHP")->Draw(glm::vec2(0,550),glm::vec2(EnemyHPvalue,50),0,glm::vec4(255,0,0,255),0);
+        TextureManager::getInstance()->getSprite("BoarICON")->Draw(glm::vec2(20,550),glm::vec2(32,32),0,color,0);
     }else{
         auto EnemyHPvalue = GameObjectManager::getInstance()->getGameObject("Dragon")->getHP();
         glm::vec2 PlayerPosition = GameObjectManager::getInstance()->getGameObject("Player")->getPosition();
         glm::vec2 DragonPosition = GameObjectManager::getInstance()->getGameObject("Dragon")->getPosition();
+        //TextureManager::getInstance()->getSprite("Fire1")->Draw(glm::vec2(DragonPosition.x - 300, DragonPosition.y - 150),glm::vec2(152,152),0,color,0);
+        //TextureManager::getInstance()->getSprite("Fire2")->Draw(glm::vec2(DragonPosition.x - 200, DragonPosition.y - 150),glm::vec2(120,120),0,color,0);
         
         if(PlayerPosition.y > DragonPosition.y){
             GameObjectManager::getInstance()->getGameObject("Dragon")->render();
@@ -151,11 +169,13 @@ void FirstState::render(){
             GameObjectManager::getInstance()->getGameObject("Player")->render();
             GameObjectManager::getInstance()->getGameObject("Dragon")->render();
         }
-        TextureManager::getInstance()->getRectangle("EnemyHP")->Draw(glm::vec2(0,550),glm::vec2(EnemyHPvalue,50),0,glm::vec4(255,0,0,255),0);
-        TextureManager::getInstance()->getSprite("DragonICON")->Draw(glm::vec2(20,550),glm::vec2(32,32),0,color,0);
+        
         if(EnemyHPvalue < 0)
             EnemyHPvalue = 0;
+        TextureManager::getInstance()->getRectangle("EnemyHP")->Draw(glm::vec2(0,550),glm::vec2(EnemyHPvalue,50),0,glm::vec4(255,0,0,255),0);
+        TextureManager::getInstance()->getSprite("DragonICON")->Draw(glm::vec2(20,550),glm::vec2(32,32),0,color,0);
     }
+    
     TextureManager::getInstance()->getRectangle("PlayerHP")->Draw(glm::vec2(0,50),glm::vec2(PlayerHPvalue,50),0,color,0);
     TextureManager::getInstance()->getSprite("PlayerICON")->Draw(glm::vec2(20,50),glm::vec2(32,32),0,color,0);
 }
