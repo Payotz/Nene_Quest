@@ -6,6 +6,7 @@
 #include "../graphic/sprite.h"
 #include "../graphic/shader.h"
 #include "../graphic/rectangle.h"
+#include "../graphic/particle.h"
 
 class TextureManager{
     public:
@@ -22,6 +23,10 @@ class TextureManager{
         Rect* getRectangle(std::string name);
         void deleteRectangle(std::string name);
 
+        void addParticle(std::string name, std::string spritePath,std::string vertShader,std::string fragShader,bool isAnimated,bool isPNG, int count);
+        std::vector<Particle*> getParticle(std::string name);
+        void deleteParticle(std::string name);
+
         static TextureManager* getInstance(){
             static TextureManager* instance = new TextureManager();
             return instance;
@@ -34,6 +39,8 @@ class TextureManager{
         static std::map <std::string, Sprite*> sprite_list;
         static std::map <std::string, Shader*> shader_list;
         static std::map <std::string, Rect*> rect_list;
+        static std::map <std::string, std::vector<Particle*>> particle_list;
+        static std::map <std::string, int> numParticles;
         TextureManager() {}
         ~TextureManager() {}
 };

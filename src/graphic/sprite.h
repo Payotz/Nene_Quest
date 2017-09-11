@@ -21,6 +21,8 @@ class Sprite{
         void Test();
         Texture* getTexture();
 
+        GLfloat ParticleLife;
+
     private:
         static GLuint VAO;
         Shader *shader;

@@ -31,7 +31,7 @@ FirstState::FirstState(){
     skypos = glm::vec2(0,200);
     mountainpos = glm::vec2(0,300);
 
-    currentEnemy = 1;
+    currentEnemy = 2;
 }
 
 FirstState::~FirstState(){
@@ -49,6 +49,10 @@ FirstState::~FirstState(){
 }
 
 void FirstState::onEnter(){
+    //TextureManager::getInstance()->addSprite("Loading",false);
+    //TextureManager::getInstance()->getSprite("Loading")->initialize("img/loading.png","shader/Shader.vert","shader/Shader.frag",false);
+    //TextureManager::getInstance()->getSprite("Loading")->Draw(glm::vec2(200,200),glm::vec2(200,200),0,glm::vec3(0,0,0),0);
+
     GameObjectManager::getInstance()->addGameObject("Player",new Player(glm::vec2(164,164),true));
     GameObjectManager::getInstance()->getGameObject("Player")->initialize("Player","img/pink_knight_500.png","shader/Shader.vert","shader/Shader.frag",true);
     GameObjectManager::getInstance()->getGameObject("Player")->setPosition(glm::vec2(300,300));
@@ -72,17 +76,7 @@ void FirstState::onEnter(){
     TextureManager::getInstance()->addSprite("BoarICON",true);
     TextureManager::getInstance()->addSprite("DragonICON",true);
 
-    TextureManager::getInstance()->addSprite("Fire1",true);
-    TextureManager::getInstance()->addSprite("Fire2",true);
-    TextureManager::getInstance()->addSprite("Fire3",true);
-    TextureManager::getInstance()->addSprite("Fire4",true);
-    TextureManager::getInstance()->addSprite("Fire5",true);
-
-    TextureManager::getInstance()->getSprite("Fire1")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
-    TextureManager::getInstance()->getSprite("Fire2")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
-    TextureManager::getInstance()->getSprite("Fire3")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
-    TextureManager::getInstance()->getSprite("Fire4")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
-    TextureManager::getInstance()->getSprite("Fire5")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+    TextureManager::getInstance()->addParticle("DragonFire","img/fire.png","shader/Shader.vert","shader/Shader.frag",false,true,500);
 
     TextureManager::getInstance()->getSprite("Sky")->initialize("img/sky.png","shader/Shader.vert","shader/bground.frag",false);
     TextureManager::getInstance()->getSprite("Mountain")->initialize("img/mountain.png","shader/Shader.vert","shader/Shader.frag",false);
@@ -100,6 +94,10 @@ void FirstState::onEnter(){
 
     TextureManager::getInstance()->addRectangle("EnemyHP", new Rect());
     TextureManager::getInstance()->getRectangle("EnemyHP")->initialize("shader/hpbar.vert","shader/hpbar.frag");
+
+    for(auto const &part : TextureManager::getInstance()->getParticle("DragonFire")){
+        part->ParticleLife = 360.0f;
+    }
 
 }
 
@@ -159,9 +157,9 @@ void FirstState::render(){
         auto EnemyHPvalue = GameObjectManager::getInstance()->getGameObject("Dragon")->getHP();
         glm::vec2 PlayerPosition = GameObjectManager::getInstance()->getGameObject("Player")->getPosition();
         glm::vec2 DragonPosition = GameObjectManager::getInstance()->getGameObject("Dragon")->getPosition();
-        //TextureManager::getInstance()->getSprite("Fire1")->Draw(glm::vec2(DragonPosition.x - 300, DragonPosition.y - 150),glm::vec2(152,152),0,color,0);
-        //TextureManager::getInstance()->getSprite("Fire2")->Draw(glm::vec2(DragonPosition.x - 200, DragonPosition.y - 150),glm::vec2(120,120),0,color,0);
-        
+        for(auto const &part : TextureManager::getInstance()->getParticle("DragonFire")){
+            part->render(glm::vec2(450,250),glm::vec2(200,70));
+        }
         if(PlayerPosition.y > DragonPosition.y){
             GameObjectManager::getInstance()->getGameObject("Dragon")->render();
             GameObjectManager::getInstance()->getGameObject("Player")->render();   
