@@ -157,8 +157,9 @@ void FirstState::render(){
         auto EnemyHPvalue = GameObjectManager::getInstance()->getGameObject("Dragon")->getHP();
         glm::vec2 PlayerPosition = GameObjectManager::getInstance()->getGameObject("Player")->getPosition();
         glm::vec2 DragonPosition = GameObjectManager::getInstance()->getGameObject("Dragon")->getPosition();
+        glm::vec2 DragonFirePosition = glm::vec2(DragonPosition.x - 350, DragonPosition.y - 150);
         for(auto const &part : TextureManager::getInstance()->getParticle("DragonFire")){
-            part->render(glm::vec2(450,250),glm::vec2(200,70));
+            part->render(DragonFirePosition,glm::vec2(200,70));
         }
         if(PlayerPosition.y > DragonPosition.y){
             GameObjectManager::getInstance()->getGameObject("Dragon")->render();
@@ -216,6 +217,7 @@ void FirstState::update(){
         GameObjectManager::getInstance()->getGameObject("Boar1")->update();
     }else{
         if(currentEnemy != 1){
+
             if(GameObjectManager::getInstance()->getGameObject("Player")->getCurrentState() == 0){
                 if(GameObjectManager::getInstance()->getGameObject("Dragon")->isCollidingWith(GameObjectManager::getInstance()->getGameObject("Player")->getRect(),glm::vec2(0,0))){
                     if(!GameObjectManager::getInstance()->getGameObject("Player")->getIsAttacked()){

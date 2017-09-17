@@ -5,7 +5,7 @@ void Texture::loadTexture(std::string name, bool subTexture){
     test = name;
     SDL_Surface *image = IMG_Load(name.c_str());
     if(image == NULL){
-        std::cout << "[ERROR]Texture::loadTexture : IMG_ERROR_CODE: " << IMG_GetError() << std::endl;
+        std::cerr << "[ERROR]Texture::loadTexture : IMG_ERROR_CODE: " << IMG_GetError() << std::endl;
         return;
     }
     //Generate Texture Object
@@ -33,8 +33,8 @@ void Texture::loadTexture(std::string name, bool subTexture){
         IMAGEMAXINDEX = static_cast<int>(subtextures.size());
         this->subTextureEnabled = true;
     }
-    std::cout << "[INFORMATION]Texture::loadTexture() : Loaded Texture : " << name << std::endl;
-    std::cout << "[INFORMATION]Texture::loadTexture() : Subtexture Enabled is " << subTexture << " for " << name << std::endl;
+    std::cerr << "[INFORMATION]Texture::loadTexture() : Loaded Texture : " << name << std::endl;
+    std::cerr << "[INFORMATION]Texture::loadTexture() : Subtexture Enabled is " << subTexture << " for " << name << std::endl;
 }
 
 void Texture::Use(){
@@ -44,27 +44,27 @@ void Texture::Use(){
 
 void Texture::addSubTexture(std::string name){
     if(!subTextureEnabled){
-        std::cout << "[ERROR]Texture::addSubTexture() : SubTextures Not Enabled for this texture " << std::endl;
+        std::cerr << "[ERROR]Texture::addSubTexture() : SubTextures Not Enabled for this texture " << std::endl;
         return;
     }
-    std::cout << "[INFORMATION]Texture::addSubTexture() : Adding Subtexture: " << name << std::endl;
+    std::cerr << "[INFORMATION]Texture::addSubTexture() : Adding Subtexture: " << name << std::endl;
     subtextures.push_back(IMG_Load(name.c_str()));
     std::cout << "[INFORMATION]Texture::addSubTexture() : Number of Subtextures : " << subtextures.size() << std::endl;
     int errCode = glGetError();
     if(errCode)
-        std::cout << "[ERROR] OpenGL Error : " << glGetError() << std::endl;
+        std::cerr << "[ERROR] OpenGL Error : " << glGetError() << std::endl;
 }
 
 void Texture::addSubTextureIntoMap(std::string texName, std::string path){
     if(!subTextureEnabled){
-        std::cout << "[ERROR]Texture::addSubTextureIntoMap() : SubTextures Not Enabled for this texture " << std::endl;
+        std::cerr << "[ERROR]Texture::addSubTextureIntoMap() : SubTextures Not Enabled for this texture " << std::endl;
         return;
     }
-    std::cout << "[INFORMATION]Texture::addSubTexture() : Adding Subtexture: " << path << std::endl;
+    std::cerr << "[INFORMATION]Texture::addSubTexture() : Adding Subtexture: " << path << std::endl;
     subtexture_map[texName] = IMG_Load(path.c_str());
     int errCode = glGetError();
     if(errCode)
-        std::cout << "[ERROR] OpenGL Error : " << glGetError() << std::endl;
+        std::cerr << "[ERROR] OpenGL Error : " << glGetError() << std::endl;
 }
 
 void Texture::iterateSubTexture(){
@@ -80,16 +80,16 @@ void Texture::iterateSubTexture(){
     glTexSubImage2D(GL_TEXTURE_2D,0,0,0,subtextures[imageIndex]->w,subtextures[imageIndex]->h,GL_RGBA,GL_UNSIGNED_BYTE,subtextures[imageIndex]->pixels);
     int errCode = glGetError();
     if(errCode)
-        std::cout << "[ERROR]Texture::iterateSubTexture() : OpenGL Error : " << glGetError() << std::endl;
+        std::cerr << "[ERROR]Texture::iterateSubTexture() : OpenGL Error : " << glGetError() << std::endl;
 }
 
 void Texture::switchSubTexture(std::string name){
     if(!subTextureEnabled){
-        std::cout << "[ERROR]Texture::switchSubTexture() : SubTextures Not Enabled for this texture " << std::endl;
+        std::cerr << "[ERROR]Texture::switchSubTexture() : SubTextures Not Enabled for this texture " << std::endl;
         return;
     }
     if(subtexture_map.count(name) < 0){
-        std::cout << "[ERROR]Texture::switchSubTexture() : There is no subtexture with the name : " << name << std::endl;
+        std::cerr << "[ERROR]Texture::switchSubTexture() : There is no subtexture with the name : " << name << std::endl;
         return;
     }
 
@@ -97,7 +97,7 @@ void Texture::switchSubTexture(std::string name){
     glTexSubImage2D(GL_TEXTURE_2D,0,0,0,subtexture_map[name]->w,subtexture_map[name]->h,GL_RGBA,GL_UNSIGNED_BYTE,subtexture_map[name]->pixels);
     int errCode = glGetError();
     if(errCode)
-        std::cout << "[ERROR]Texture::switchSubTexture() : OpenGL Error : " << glGetError() << std::endl;
+        std::cerr << "[ERROR]Texture::switchSubTexture() : OpenGL Error : " << glGetError() << std::endl;
 }
 
 void Texture::Reset(){

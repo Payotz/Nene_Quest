@@ -10,7 +10,7 @@ GameObject* GameObjectManager::getGameObject(std::string name){
     if(gameobj_list.find(name) != gameobj_list.end())
         return gameobj_list[name];
     else{
-        std::cout << "[ERROR]GameObjectManager::getGameObject() : Name not found : " << name << std::endl;
+        std::cerr << "[ERROR]GameObjectManager::getGameObject() : Name not found : " << name << std::endl;
         return nullptr;
     }
 }
@@ -19,7 +19,7 @@ void GameObjectManager::removeGameObject(std::string name){
     if(gameobj_list.find(name) != gameobj_list.end())
         gameobj_list.erase(name);
     else{
-        std::cout << "[ERROR]GameObjectManager::removeGameObject() : Name not found : " << name << std::endl;
+        std::cerr << "[ERROR]GameObjectManager::removeGameObject() : Name not found : " << name << std::endl;
         return;
     }
 }

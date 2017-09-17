@@ -7,7 +7,7 @@ std::map<std::string, std::vector<Particle*>> TextureManager::particle_list;
 std::map<std::string, int> TextureManager::numParticles;
 
 void TextureManager::addSprite(std::string spriteName,bool isPNG){
-    std::cout << "[INFORMATION]TextureManager::addSprite() : Adding Sprite: " << spriteName << std::endl;
+    std::cerr << "[INFORMATION]TextureManager::addSprite() : Adding Sprite: " << spriteName << std::endl;
     sprite_list[spriteName] = new Sprite(isPNG);
 }
 
@@ -15,7 +15,7 @@ Sprite* TextureManager::getSprite(std::string spriteName){
     if(sprite_list.find(spriteName) != sprite_list.end())
         return sprite_list[spriteName];
     else{
-        std::cout << "[ERROR]TextureManager::getSprite() : Sprite Not Found: " << spriteName << std::endl;
+        std::cerr << "[ERROR]TextureManager::getSprite() : Sprite Not Found: " << spriteName << std::endl;
         return nullptr;
     }
 }
@@ -24,7 +24,7 @@ void TextureManager::deleteSprite(std::string spriteName){
     if(sprite_list.find(spriteName) != sprite_list.end())
         sprite_list.erase(spriteName);
     else{
-        std::cout << "[ERROR]TextureManager::deleteSprite() : Sprite Not Found: " << spriteName << std::endl;
+        std::cerr << "[ERROR]TextureManager::deleteSprite() : Sprite Not Found: " << spriteName << std::endl;
         return;
     }
 }
@@ -37,7 +37,7 @@ Shader* TextureManager::getShader(std::string name){
     if(shader_list.find(name) != shader_list.end())
         return shader_list[name];
     else{
-        std::cout << "[ERROR]TextureManager::getShader(): Shader Not Found : " << name << std::endl;
+        std::cerr << "[ERROR]TextureManager::getShader(): Shader Not Found : " << name << std::endl;
         return nullptr;
     }
 }
@@ -47,7 +47,7 @@ void TextureManager::deleteShader(std::string name){
 }
 
 void TextureManager::addRectangle(std::string name, Rect* value){
-    std::cout << "[INFORMATION]TextureManager::addRectangle() : Adding Rectangle: " << name << std:: endl;
+    std::cerr << "[INFORMATION]TextureManager::addRectangle() : Adding Rectangle: " << name << std:: endl;
     rect_list[name] = value;
 }
 

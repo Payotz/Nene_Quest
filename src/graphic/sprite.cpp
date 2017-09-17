@@ -85,7 +85,7 @@ void Sprite::Draw(glm::vec2 pos, glm::vec2 size, GLfloat rotate, glm::vec3 color
 }
 
 void Sprite::Test(){
-    std::cout << texture->test << std::endl;
+    std::cerr << texture->test << std::endl;
 }
 
 void Sprite::Reset(){

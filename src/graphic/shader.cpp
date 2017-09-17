@@ -91,7 +91,7 @@ void checkShaderStatus(GLuint shader){
     glGetShaderiv(shader,GL_COMPILE_STATUS,&success);
     if(!success){
         glGetShaderInfoLog(shader,1024,NULL,infoLog);
-        std::cout << "ERROR: " << GET_VARIABLE_NAME(shader) << " did not compile! " << infoLog << std::endl;
+        std::cerr << "ERROR: " << GET_VARIABLE_NAME(shader) << " did not compile! " << infoLog << std::endl;
     }
 }
 
@@ -101,6 +101,6 @@ void checkProgramStatus(GLuint program){
     glGetProgramiv(program,GL_LINK_STATUS,&success);
     if(!success){
         glGetProgramInfoLog(program,1024,NULL,infoLog);
-        std::cout << "ERROR: " << GET_VARIABLE_NAME(program) << " did not link! " << infoLog << std::endl;
+        std::cerr << "ERROR: " << GET_VARIABLE_NAME(program) << " did not link! " << infoLog << std::endl;
     }
 }
