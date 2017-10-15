@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include "../object/GameObject.h"
 
 class GameObjectManager{
@@ -16,5 +16,5 @@ class GameObjectManager{
         }
 
     private:
-        static std::map<std::string, GameObject*> gameobj_list;
+        static std::unordered_map<std::string, GameObject*> gameobj_list;
 };

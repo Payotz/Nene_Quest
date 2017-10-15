@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include "../manager/TextureManager.h"
 #include "../state/State.h"
 #include "../state/FirstState.h"
@@ -25,5 +25,5 @@ class StateMachine{
         static State* currentState;
         StateMachine(){};
         ~StateMachine(){};
-        static std::map<std::string, State*> state_list;
+        static std::unordered_map<std::string, State*> state_list;
 };

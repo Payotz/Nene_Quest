@@ -4,6 +4,10 @@
 * TODO: Implement Dragon AI
 */
 
+/* Velocity.x = cos(angle) / speed;
+*  Velocity.y = sin(angle) / speed;
+*/
+
 bool FirstState::isRunning = true;
 bool FirstState::restartFlag = false;
 
@@ -21,6 +25,13 @@ int dragonState;
 glm::vec2 velocity;
 
 int currentEnemy;
+
+inline double degtoRad(int degree){
+    return static_cast<double>((degree * 3.14) / 180);
+}
+inline int radtoDeg(double radian){
+    return static_cast<int>((radian * 180) / 3.14);
+}
 
 FirstState::FirstState(){
     velocity.x = 0;
@@ -68,6 +79,19 @@ void FirstState::onEnter(){
     GameObjectManager::getInstance()->getGameObject("Dragon")->setPosition(glm::vec2(800,400));
     GameObjectManager::getInstance()->getGameObject("Dragon")->setHP(800);
 
+    GameObjectManager::getInstance()->addGameObject("Fire",new Enemy(glm::vec2(64,64),true));
+    GameObjectManager::getInstance()->addGameObject("Fire2",new Enemy(glm::vec2(64,64),true));
+    GameObjectManager::getInstance()->addGameObject("Fire3",new Enemy(glm::vec2(64,64),true));
+    
+    GameObjectManager::getInstance()->getGameObject("Fire")->initialize("Fire","img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+    GameObjectManager::getInstance()->getGameObject("Fire2")->initialize("Fire2","img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+    GameObjectManager::getInstance()->getGameObject("Fire3")->initialize("Fire3","img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
+    
+    GameObjectManager::getInstance()->getGameObject("Fire")->setPosition(glm::vec2(560,300));
+    GameObjectManager::getInstance()->getGameObject("Fire2")->setPosition(glm::vec2(560,300));
+    GameObjectManager::getInstance()->getGameObject("Fire3")->setPosition(glm::vec2(560,300));
+
+
     TextureManager::getInstance()->addSprite("Sky",true);
     TextureManager::getInstance()->addSprite("Mountain",true);
     TextureManager::getInstance()->addSprite("Ground",true);
@@ -76,11 +100,14 @@ void FirstState::onEnter(){
     TextureManager::getInstance()->addSprite("BoarICON",true);
     TextureManager::getInstance()->addSprite("DragonICON",true);
 
-    TextureManager::getInstance()->addParticle("DragonFire","img/fire.png","shader/Shader.vert","shader/Shader.frag",false,true,500);
+    TextureManager::getInstance()->addSprite("Fire",true);
+
+    TextureManager::getInstance()->addParticle("DragonFire","img/fire.png","shader/Shader.vert","shader/Shader.frag",false,true,50);
 
     TextureManager::getInstance()->getSprite("Sky")->initialize("img/sky.png","shader/Shader.vert","shader/bground.frag",false);
     TextureManager::getInstance()->getSprite("Mountain")->initialize("img/mountain.png","shader/Shader.vert","shader/Shader.frag",false);
     TextureManager::getInstance()->getSprite("Ground")->initialize("img/ground.png","shader/Shader.vert","shader/bground.frag",false);
+    TextureManager::getInstance()->getSprite("Fire")->initialize("img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
 
     TextureManager::getInstance()->getSprite("PlayerICON")->initialize("img/pink_knight_icon.png","shader/Shader.vert","shader/Shader.frag",false);
     TextureManager::getInstance()->getSprite("BoarICON")->initialize("img/boar.png","shader/Shader.vert","shader/Shader.frag",false);
@@ -129,6 +156,9 @@ void FirstState::handleEvents(){
     if(event.type == SDL_KEYUP){
         velocity.x = velocity.y = 0;
     }
+    if(event.type == SDL_MOUSEBUTTONDOWN){
+        std::cout << "( " << event.button.x << "," << event.button.y << " )" << std::endl;
+    }
 }
 
 void FirstState::render(){
@@ -161,6 +191,7 @@ void FirstState::render(){
         for(auto const &part : TextureManager::getInstance()->getParticle("DragonFire")){
             part->render(DragonFirePosition,glm::vec2(200,70));
         }
+        GameObjectManager::getInstance()->getGameObject("Fire")->render();
         if(PlayerPosition.y > DragonPosition.y){
             GameObjectManager::getInstance()->getGameObject("Dragon")->render();
             GameObjectManager::getInstance()->getGameObject("Player")->render();   
@@ -234,6 +265,9 @@ void FirstState::update(){
                     }
                 }
             }
+            GameObjectManager::getInstance()->getGameObject("Fire")->move(glm::vec2(std::cos(degtoRad(15)) * -1,std::sin(degtoRad(15)) * -1));
+            GameObjectManager::getInstance()->getGameObject("Fire2")->move(glm::vec2(std::cos(degtoRad(45)) * -1,std::sin(degtoRad(25)) * -1));
+            GameObjectManager::getInstance()->getGameObject("Fire3")->move(glm::vec2(std::cos(degtoRad(45)) * -1,std::sin(degtoRad(35)) * -1));
             GameObjectManager::getInstance()->getGameObject("Dragon")->update();
         }
     }

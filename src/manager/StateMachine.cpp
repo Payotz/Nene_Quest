@@ -1,6 +1,6 @@
 #include "StateMachine.h"
 
-std::map<std::string, State*> StateMachine::state_list;
+std::unordered_map<std::string, State*> StateMachine::state_list;
 State* StateMachine::currentState;
 
 State* StateMachine::getCurrentState(){

@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <SDL2/SDL.h>
 #include "../graphic/sprite.h"
@@ -36,11 +36,11 @@ class TextureManager{
         void operator= (TextureManager const&) = delete;
 
     private:
-        static std::map <std::string, Sprite*> sprite_list;
-        static std::map <std::string, Shader*> shader_list;
-        static std::map <std::string, Rect*> rect_list;
-        static std::map <std::string, std::vector<Particle*>> particle_list;
-        static std::map <std::string, int> numParticles;
+        static std::unordered_map <std::string, Sprite*> sprite_list;
+        static std::unordered_map <std::string, Shader*> shader_list;
+        static std::unordered_map <std::string, Rect*> rect_list;
+        static std::unordered_map <std::string, std::vector<Particle*>> particle_list;
+        static std::unordered_map <std::string, int> numParticles;
         TextureManager() {}
         ~TextureManager() {}
 };

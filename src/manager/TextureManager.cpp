@@ -1,13 +1,13 @@
 #include "TextureManager.h"
 
-std::map<std::string, Sprite*> TextureManager::sprite_list;
-std::map<std::string, Shader*> TextureManager::shader_list;
-std::map<std::string, Rect*> TextureManager::rect_list;
-std::map<std::string, std::vector<Particle*>> TextureManager::particle_list;
-std::map<std::string, int> TextureManager::numParticles;
+std::unordered_map<std::string, Sprite*> TextureManager::sprite_list;
+std::unordered_map<std::string, Shader*> TextureManager::shader_list;
+std::unordered_map<std::string, Rect*> TextureManager::rect_list;
+std::unordered_map<std::string, std::vector<Particle*>> TextureManager::particle_list;
+std::unordered_map<std::string, int> TextureManager::numParticles;
 
 void TextureManager::addSprite(std::string spriteName,bool isPNG){
-    std::cerr << "[INFORMATION]TextureManager::addSprite() : Adding Sprite: " << spriteName << std::endl;
+    std::cerr << "[INFORMATION]TextureManager::addSprite() : Adding Sprite: " << spriteName;
     sprite_list[spriteName] = new Sprite(isPNG);
 }
 

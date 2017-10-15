@@ -49,7 +49,6 @@ void Texture::addSubTexture(std::string name){
     }
     std::cerr << "[INFORMATION]Texture::addSubTexture() : Adding Subtexture: " << name << std::endl;
     subtextures.push_back(IMG_Load(name.c_str()));
-    std::cout << "[INFORMATION]Texture::addSubTexture() : Number of Subtextures : " << subtextures.size() << std::endl;
     int errCode = glGetError();
     if(errCode)
         std::cerr << "[ERROR] OpenGL Error : " << glGetError() << std::endl;
@@ -69,7 +68,7 @@ void Texture::addSubTextureIntoMap(std::string texName, std::string path){
 
 void Texture::iterateSubTexture(){
     if(!subTextureEnabled){
-        std::cout << "[ERROR]Texture::iterateSubTexture() : SubTextures Not Enabled for this texture " << std:: endl;
+        std::cerr << "[ERROR]Texture::iterateSubTexture() : SubTextures Not Enabled for this texture " << std:: endl;
         return;
     }
     if(imageIndex == 0)

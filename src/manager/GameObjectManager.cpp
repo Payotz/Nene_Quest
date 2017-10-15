@@ -1,6 +1,6 @@
 #include "GameObjectManager.h"
 
-std::map<std::string, GameObject*> GameObjectManager::gameobj_list;
+std::unordered_map<std::string, GameObject*> GameObjectManager::gameobj_list;
 
 void GameObjectManager::addGameObject(std::string name, GameObject* object){
     gameobj_list[name] = object;
