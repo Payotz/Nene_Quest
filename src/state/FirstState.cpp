@@ -21,6 +21,7 @@ glm::vec2 mountainpos;
 int boarState;
 int boarChargeCounter;
 int dragonState;
+int toggle = 0;
 
 glm::vec2 velocity;
 
@@ -91,7 +92,10 @@ void FirstState::onEnter(){
     GameObjectManager::getInstance()->getGameObject("Fire")->setPosition(glm::vec2(560,300));
     GameObjectManager::getInstance()->getGameObject("Fire2")->setPosition(glm::vec2(560,300));
     GameObjectManager::getInstance()->getGameObject("Fire3")->setPosition(glm::vec2(560,300));
-
+    
+    GameObjectManager::getInstance()->getGameObject("Fire")->setHP(100);
+    GameObjectManager::getInstance()->getGameObject("Fire2")->setHP(100);
+    GameObjectManager::getInstance()->getGameObject("Fire3")->setHP(100);
 
     TextureManager::getInstance()->addSprite("Sky",true);
     TextureManager::getInstance()->addSprite("Mountain",true);
@@ -197,9 +201,6 @@ void FirstState::render(){
         /*for(auto const &part : TextureManager::getInstance()->getParticle("DragonFire")){
             part->render(DragonFirePosition,glm::vec2(200,70));
         }*/
-        GameObjectManager::getInstance()->getGameObject("Fire")->render();
-        GameObjectManager::getInstance()->getGameObject("Fire2")->render();
-        GameObjectManager::getInstance()->getGameObject("Fire3")->render();
         if(PlayerPosition.y > DragonPosition.y){
             GameObjectManager::getInstance()->getGameObject("Dragon")->render();
             GameObjectManager::getInstance()->getGameObject("Player")->render();   
@@ -207,6 +208,9 @@ void FirstState::render(){
             GameObjectManager::getInstance()->getGameObject("Player")->render();
             GameObjectManager::getInstance()->getGameObject("Dragon")->render();
         }
+        GameObjectManager::getInstance()->getGameObject("Fire")->render();
+        GameObjectManager::getInstance()->getGameObject("Fire2")->render();
+        GameObjectManager::getInstance()->getGameObject("Fire3")->render();
         
         if(EnemyHPvalue < 0)
             EnemyHPvalue = 0;
@@ -273,18 +277,59 @@ void FirstState::update(){
                 }
             }
             auto DragonPosition = GameObjectManager::getInstance()->getGameObject("Dragon")->getPosition();
-            if(GameObjectManager::getInstance()->getGameObject("Fire")->getPosition().x < 0){
+            if(DragonPosition.y - 200 == 0)
+                toggle = 1;
+            else if(DragonPosition.y + 200 == 600)
+                toggle = 0;
+            if(toggle)
+                GameObjectManager::getInstance()->getGameObject("Dragon")->move(glm::vec2(0,1));
+            else
+                GameObjectManager::getInstance()->getGameObject("Dragon")->move(glm::vec2(0,-1));
+            //std::cout << DragonPosition.y << std::endl;
+            //std::cout << toggle << std::endl;
+
+            if(GameObjectManager::getInstance()->getGameObject("Fire")->getPosition().x < 0 || 
+                GameObjectManager::getInstance()->getGameObject("Fire")->getPosition().x > 800)
+            {
                 GameObjectManager::getInstance()->getGameObject("Fire")->setPosition(glm::vec2(DragonPosition.x -175,DragonPosition.y - 130));
+                GameObjectManager::getInstance()->getGameObject("Fire")->setHP(100);
             }
-            if(GameObjectManager::getInstance()->getGameObject("Fire2")->getPosition().x - 40 < 0){
+            if(GameObjectManager::getInstance()->getGameObject("Fire2")->getPosition().x - 40 < 0 || 
+                GameObjectManager::getInstance()->getGameObject("Fire2")->getPosition().x + 90 > 800 )
+            {
                 GameObjectManager::getInstance()->getGameObject("Fire2")->setPosition(glm::vec2(DragonPosition.x -175,DragonPosition.y - 130));
+                GameObjectManager::getInstance()->getGameObject("Fire2")->setHP(100);
             }
-            if(GameObjectManager::getInstance()->getGameObject("Fire3")->getPosition().x - 90 < 0){
+            if(GameObjectManager::getInstance()->getGameObject("Fire3")->getPosition().x - 90 < 0 || 
+                GameObjectManager::getInstance()->getGameObject("Fire3")->getPosition().x + 90 > 800)
+            {
                 GameObjectManager::getInstance()->getGameObject("Fire3")->setPosition(glm::vec2(DragonPosition.x -175,DragonPosition.y - 130));
+                GameObjectManager::getInstance()->getGameObject("Fire3")->setHP(100);
             }
-            GameObjectManager::getInstance()->getGameObject("Fire")->move(glm::vec2((std::cos(degtoRad(15)) * -1) * 2,std::sin(degtoRad(15)) ));
-            GameObjectManager::getInstance()->getGameObject("Fire2")->move(glm::vec2((std::cos(degtoRad(25)) * -1) * 2,std::sin(degtoRad(25)) ));
-            GameObjectManager::getInstance()->getGameObject("Fire3")->move(glm::vec2((std::cos(degtoRad(35)) * -1) * 2,std::sin(degtoRad(35)) ));
+            auto Fire1 = GameObjectManager::getInstance()->getGameObject("Fire")->getHP();
+            auto Fire2 = GameObjectManager::getInstance()->getGameObject("Fire2")->getHP();
+            auto Fire3 = GameObjectManager::getInstance()->getGameObject("Fire3")->getHP();
+            //std::cout << Fire1 << std::endl;
+            if(Fire1 > -40){
+                GameObjectManager::getInstance()->getGameObject("Fire")->move(glm::vec2((std::cos(degtoRad(15)) * -1) * 4,std::sin(degtoRad(15)) ));
+                GameObjectManager::getInstance()->getGameObject("Fire")->setHP(Fire1 - 1);
+                
+            }else
+                GameObjectManager::getInstance()->getGameObject("Fire")->move(glm::vec2((std::cos(degtoRad(15))) * 4,std::sin(degtoRad(15)) ));
+
+            if(Fire2 > -40){
+                GameObjectManager::getInstance()->getGameObject("Fire2")->move(glm::vec2((std::cos(degtoRad(25)) * -1) * 4,std::sin(degtoRad(25)) ));
+                GameObjectManager::getInstance()->getGameObject("Fire2")->setHP(Fire2 - 1);
+            }else
+                GameObjectManager::getInstance()->getGameObject("Fire2")->move(glm::vec2((std::cos(degtoRad(25))) * 4,std::sin(degtoRad(25)) ));
+            
+
+            if(Fire3 > -40){
+                GameObjectManager::getInstance()->getGameObject("Fire3")->move(glm::vec2((std::cos(degtoRad(35)) * -1) * 4,std::sin(degtoRad(35)) ));
+                GameObjectManager::getInstance()->getGameObject("Fire3")->setHP(Fire3 - 1);
+            }else
+                GameObjectManager::getInstance()->getGameObject("Fire3")->move(glm::vec2((std::cos(degtoRad(35))) * 4,std::sin(degtoRad(35)) ));
+
             GameObjectManager::getInstance()->getGameObject("Dragon")->update();
         }
     }
