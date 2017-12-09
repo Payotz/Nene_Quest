@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]){
     unsigned int fpsTicks = 0;
-    Game *game = new Game();
+    std::unique_ptr<Game> game = std::make_unique<Game>();
     game->initialize();
     while(game->isRunning){
         fpsTicks = SDL_GetTicks();

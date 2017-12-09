@@ -20,7 +20,10 @@ This video game can be seen in New Game S2 - Episode 6.
 
 * make
 
-**Note:** I am currently using mingw32, and I have only built it on mingw32. I don't know if it's buildable in actual GNU/Linux
+* compiler that supports c++17
+
+**Note:** ~I am currently using mingw32, and I have only built it on mingw32. I don't know if it's buildable in actual GNU/Linux~
+Currently building on GNU/Linux. 
 
 ## Disclaimer:
 I do not own the Anime "New Game" nor am the creator or is involved in its production. The sprites used in this project are not mine and are taken directly from New Game S2 - Episode 6.

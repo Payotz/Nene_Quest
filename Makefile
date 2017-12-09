@@ -1,10 +1,10 @@
 CXX = g++
-CPPFLAGS = -c -std=c++14 -static-libstdc++
+CPPFLAGS = -c -std=c++17 -static-libstdc++
 LIB_DIR = D:/msys32/mingw64/lib
 OBJ_LIST = game.o main.o texture.o shader.o sprite.o rectangle.o particle.o TextureManager.o StateMachine.o FirstState.o GameObjectManager.o Player.o Enemy.o
-LIB_LIST = -lmingw32 -lSDL2 -lgl3w -lSDL2_image -lopengl32 
+LIB_LIST = -lSDL2 -lgl3w -lSDL2_image 
 
-debug:CPPFLAGS = -c -g3
+debug:CPPFLAGS = -c -g3 -std=c++17
 
 all: release
 
@@ -54,4 +54,4 @@ Enemy.o:
 	$(CXX) $(CPPFLAGS) src/object/Enemy.cpp
 
 clean:
-	del *.o
+	rm *.o

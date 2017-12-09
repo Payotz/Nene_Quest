@@ -2,10 +2,6 @@
 SDL_Window* window;
 SDL_GLContext context;
 
-Sprite *sprite;
-
-FirstState *first;
-
 void Game::initialize(){
     /* Set OpenGL version to 3.3
         SDL_GL_CONTEXT_MAJOR_VERSION = 3.0
@@ -37,6 +33,10 @@ void Game::initialize(){
     /* Retrieve OpenGL libraries from OpenGL drivers inside computer GPU */
     if(gl3wInit() !=0){
         std::cout << "GL3W cannot be initialized! : " << std::endl;
+        return;
+    }
+    if(!gl3wIsSupported(3,3)){
+        std::cout << "OpenGL 3.3 is not supported" << std::endl;
         return;
     }
     std::cout << "[INFORMATION]OpenGL Version supported : " << glGetString(GL_VERSION) << std::endl;
@@ -72,7 +72,6 @@ void Game::render(){
 }
 
 void Game::cleanup(){
-    delete(sprite);
     SDL_GL_DeleteContext(context);
     IMG_Quit();
     SDL_Quit();

@@ -2,6 +2,7 @@
 
 #include "shader.h"
 #include "texture.h"
+#include <memory>
 class Rect{
     public:
         Rect();
@@ -11,9 +12,9 @@ class Rect{
         void Reset();
         void Draw(glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color,GLfloat z_depth);
         void Test();
-        Shader* getShader();
+        std::unique_ptr<Shader> getShader();
     private:
         static GLuint VAO;
-        Shader *shader;
-        Texture *texture;
+        std::unique_ptr<Shader> shader;
+        std::unique_ptr<Texture> texture;
 };

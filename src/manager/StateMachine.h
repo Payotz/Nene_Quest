@@ -13,7 +13,7 @@ class StateMachine{
         void handleEvents();
         void update();
         void render();
-        State* getCurrentState();
+        std::shared_ptr<State> getCurrentState();
         static StateMachine* getInstance(){
             static StateMachine* instance;
             return instance;
@@ -22,8 +22,8 @@ class StateMachine{
         void operator= (StateMachine const&) = delete;
     
     private:
-        static State* currentState;
+        static std::shared_ptr<State> currentState;
         StateMachine(){};
         ~StateMachine(){};
-        static std::unordered_map<std::string, State*> state_list;
+        static std::unordered_map<std::string, std::shared_ptr<State>> state_list;
 };

@@ -10,7 +10,7 @@ Particle::~Particle(){
 
 void Particle::initialize(std::string spritePathName,std::string vertPathName, 
                         std::string fragPathName, bool isAnimated, bool isPNG){
-    sprite = new Sprite(isPNG);
+    sprite = std::make_unique<Sprite>(isPNG);
     sprite->initialize(spritePathName,vertPathName,fragPathName,isAnimated);
 }
 

@@ -16,8 +16,8 @@ float vertices[] = {
 };  
 
 Sprite::Sprite(bool value){
-    shader = new Shader();
-    texture = new Texture(value);
+    shader = std::make_unique<Shader>();
+    texture = std::make_unique<Texture>(value);
 }
  
 Sprite::~Sprite(){
@@ -48,8 +48,8 @@ void Sprite::initialize(std::string spriteName,std::string vertPathName,std::str
     shader->Reset();
 }
 
-Texture* Sprite::getTexture(){
-    return texture;
+std::unique_ptr<Texture> Sprite::getTexture(){
+    return std::move(texture);
 }
 
 void Sprite::Draw(glm::vec2 pos, glm::vec2 size, GLfloat rotate, glm::vec3 color, GLfloat z_depth){

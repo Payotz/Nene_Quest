@@ -1,14 +1,14 @@
 #include "StateMachine.h"
 
-std::unordered_map<std::string, State*> StateMachine::state_list;
-State* StateMachine::currentState;
+std::unordered_map<std::string, std::shared_ptr<State>> StateMachine::state_list;
+std::shared_ptr<State> StateMachine::currentState;
 
-State* StateMachine::getCurrentState(){
+std::shared_ptr<State> StateMachine::getCurrentState(){
     return currentState;
 }
 
 void StateMachine::initialize(){
-    state_list["First"] = new FirstState();
+    state_list["First"] = std::make_shared<FirstState>();
     currentState = state_list["First"];
     currentState->onEnter();
 }

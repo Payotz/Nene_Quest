@@ -1,10 +1,21 @@
 #pragma once
 
+#ifdef _WIN32
+#include <windows.h>
+#include <gl/gl3w.h>
+
+
+#elif __linux__
+#include <GL/gl3w.h>
+#else
+#endif
+
+#include <GL/gl.h>
+#include <GL/glext.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <map>
-#include <GL/gl3w.h>
 #include <SDL2/SDL_image.h>
 
 class Texture{

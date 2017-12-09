@@ -2,6 +2,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <memory>
+#include <variant>
 #include <SDL2/SDL.h>
 #include "../graphic/sprite.h"
 #include "../graphic/shader.h"
@@ -12,15 +13,15 @@ class TextureManager{
     public:
         
         void addSprite(std::string spriteName, bool isPNG);
-        Sprite* getSprite(std::string spriteName);
+        std::unique_ptr<Sprite> getSprite(std::string spriteName);
         void deleteSprite(std::string spriteName);
 
         void addShader(std::string name);
-        Shader* getShader(std::string name);
+        std::unique_ptr<Shader> getShader(std::string name);
         void deleteShader(std::string name);
 
-        void addRectangle(std::string name,Rect* value);
-        Rect* getRectangle(std::string name);
+        void addRectangle(std::string name,std::unique_ptr<Rect> value);
+        std::unique_ptr<Rect> getRectangle(std::string name);
         void deleteRectangle(std::string name);
 
         void addParticle(std::string name, std::string spritePath,std::string vertShader,std::string fragShader,bool isAnimated,bool isPNG, int count);
@@ -36,9 +37,9 @@ class TextureManager{
         void operator= (TextureManager const&) = delete;
 
     private:
-        static std::unordered_map <std::string, Sprite*> sprite_list;
-        static std::unordered_map <std::string, Shader*> shader_list;
-        static std::unordered_map <std::string, Rect*> rect_list;
+        static std::unordered_map <std::string, std::unique_ptr<Sprite>> sprite_list;
+        static std::unordered_map <std::string, std::unique_ptr<Shader>> shader_list;
+        static std::unordered_map <std::string, std::unique_ptr<Rect>> rect_list;
         static std::unordered_map <std::string, std::vector<Particle*>> particle_list;
         static std::unordered_map <std::string, int> numParticles;
         TextureManager() {}

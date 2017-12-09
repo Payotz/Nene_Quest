@@ -1,13 +1,20 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
-#include <string>
+#ifdef _WIN32
 #include <windows.h>
 #include <gl/gl3w.h>
+#elif __linux__
+#include <GL/gl3w.h>
+#endif
+
+#include <GL/gl.h>
+#include <GL/glext.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <iostream>
+#include <fstream>
+#include <string>
 
 class Shader{
     public:

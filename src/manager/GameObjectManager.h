@@ -2,19 +2,20 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <memory>
 #include "../object/GameObject.h"
 
 class GameObjectManager{
     public:
-        void addGameObject(std::string name, GameObject* object);
-        GameObject*  getGameObject(std::string name);
+        void addGameObject(std::string name, std::shared_ptr<GameObject> object);
+        std::shared_ptr<GameObject> getGameObject(std::string name);
         void removeGameObject(std::string name);
 
         static GameObjectManager* getInstance(){
-            static GameObjectManager* instance = new GameObjectManager();
+            GameObjectManager* instance = new GameObjectManager;
             return instance;
         }
 
     private:
-        static std::unordered_map<std::string, GameObject*> gameobj_list;
+        static std::unordered_map<std::string, std::shared_ptr<GameObject>> gameobj_list;
 };

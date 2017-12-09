@@ -1,17 +1,17 @@
 #include "GameObjectManager.h"
 
-std::unordered_map<std::string, GameObject*> GameObjectManager::gameobj_list;
+std::unordered_map<std::string, std::shared_ptr<GameObject>> GameObjectManager::gameobj_list;
 
-void GameObjectManager::addGameObject(std::string name, GameObject* object){
-    gameobj_list[name] = object;
+void GameObjectManager::addGameObject(std::string name, std::shared_ptr<GameObject> object){
+    gameobj_list[name] = (object);
 }
 
-GameObject* GameObjectManager::getGameObject(std::string name){
+std::shared_ptr<GameObject> GameObjectManager::getGameObject(std::string name){
     if(gameobj_list.find(name) != gameobj_list.end())
         return gameobj_list[name];
     else{
         std::cerr << "[ERROR]GameObjectManager::getGameObject() : Name not found : " << name << std::endl;
-        return nullptr;
+        return gameobj_list[name];
     }
 }
 

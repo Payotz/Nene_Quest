@@ -1,13 +1,19 @@
-#ifndef GAME__
-#define GAME__
+#pragma once
+
+#if _WIN32
+#include <gl/gl3w.h>
+#include <windows.h>
+#elif __linux__
+#include <GL/gl3w.h>
+#else
+#endif
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <windows.h>
-#include <gl/gl3w.h>
 #include <glm/glm.hpp>
 #include "graphic/sprite.h"
 #include "manager/StateMachine.h"
+
 
 class Game{
 
@@ -20,8 +26,4 @@ class Game{
 
         bool isRunning = true;
         bool restartFlag = false;
-    private:
-        ~Game(){}
 };
-
-#endif

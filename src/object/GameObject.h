@@ -7,7 +7,9 @@
 /* This is gonna be a long one, I bet */
 class GameObject{
     public:
-        virtual void initialize(std::string spriteName, std::string pathName, std::string vertPathName,std::string fragPathName,bool isAnimated) = 0;
+        virtual void initialize(std::string spriteName, std::string pathName, 
+                                std::string vertPathName,std::string fragPathName,
+                                bool isAnimated) = 0;
         virtual void setPosition(glm::vec2 pos) = 0;
         virtual glm::vec2 getPosition() = 0;
         virtual void setSize(glm::vec2 pos) = 0;

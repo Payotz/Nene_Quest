@@ -18,5 +18,5 @@ public:
     void render(glm::vec2 origin,glm::vec2 limiter);
 
 private:
-    Sprite* sprite;
+    std::shared_ptr<Sprite> sprite;
 };

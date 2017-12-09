@@ -65,24 +65,24 @@ void FirstState::onEnter(){
     //TextureManager::getInstance()->getSprite("Loading")->initialize("img/loading.png","shader/Shader.vert","shader/Shader.frag",false);
     //TextureManager::getInstance()->getSprite("Loading")->Draw(glm::vec2(200,200),glm::vec2(200,200),0,glm::vec3(0,0,0),0);
 
-    GameObjectManager::getInstance()->addGameObject("Player",new Player(glm::vec2(164,164),true));
+    GameObjectManager::getInstance()->addGameObject("Player",std::make_unique<Player>(glm::vec2(164,164),true));
     GameObjectManager::getInstance()->getGameObject("Player")->initialize("Player","img/pink_knight_500.png","shader/Shader.vert","shader/Shader.frag",true);
     GameObjectManager::getInstance()->getGameObject("Player")->setPosition(glm::vec2(300,300));
     GameObjectManager::getInstance()->getGameObject("Player")->setHP(800);
     
-    GameObjectManager::getInstance()->addGameObject("Boar1",new Enemy(glm::vec2(128,128),true));
+    GameObjectManager::getInstance()->addGameObject("Boar1",std::make_unique<Enemy>(glm::vec2(128,128),true));
     GameObjectManager::getInstance()->getGameObject("Boar1")->initialize("Boar1","img/boar.png","shader/Shader.vert","shader/Shader.frag",false);
     GameObjectManager::getInstance()->getGameObject("Boar1")->setPosition(glm::vec2(700,400));
     GameObjectManager::getInstance()->getGameObject("Boar1")->setHP(800);
 
-    GameObjectManager::getInstance()->addGameObject("Dragon",new Enemy(glm::vec2(512,512),true));
+    GameObjectManager::getInstance()->addGameObject("Dragon",std::make_unique<Enemy>(glm::vec2(512,512),true));
     GameObjectManager::getInstance()->getGameObject("Dragon")->initialize("Dragon","img/dragon.png","shader/Shader.vert","shader/Shader.frag",false);
     GameObjectManager::getInstance()->getGameObject("Dragon")->setPosition(glm::vec2(800,400));
     GameObjectManager::getInstance()->getGameObject("Dragon")->setHP(800);
 
-    GameObjectManager::getInstance()->addGameObject("Fire",new Enemy(glm::vec2(64,64),true));
-    GameObjectManager::getInstance()->addGameObject("Fire2",new Enemy(glm::vec2(64,64),true));
-    GameObjectManager::getInstance()->addGameObject("Fire3",new Enemy(glm::vec2(64,64),true));
+    GameObjectManager::getInstance()->addGameObject("Fire",std::make_unique<Enemy>(glm::vec2(64,64),true));
+    GameObjectManager::getInstance()->addGameObject("Fire2",std::make_unique<Enemy>(glm::vec2(64,64),true));
+    GameObjectManager::getInstance()->addGameObject("Fire3",std::make_unique<Enemy>(glm::vec2(64,64),true));
     
     GameObjectManager::getInstance()->getGameObject("Fire")->initialize("Fire","img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
     GameObjectManager::getInstance()->getGameObject("Fire2")->initialize("Fire","img/fire.png","shader/Shader.vert","shader/Shader.frag",false);
@@ -126,10 +126,10 @@ void FirstState::onEnter(){
     TextureManager::getInstance()->getSprite("Player")->getTexture()->addSubTexture("img/pink_knight_500alt.png");
     TextureManager::getInstance()->getSprite("Player")->getTexture()->addSubTextureIntoMap("Attack","img/pink_knight_500attackalt.png");
 
-    TextureManager::getInstance()->addRectangle("PlayerHP", new Rect());
+    TextureManager::getInstance()->addRectangle("PlayerHP", std::make_unique<Rect>());
     TextureManager::getInstance()->getRectangle("PlayerHP")->initialize("shader/hpbar.vert","shader/hpbar.frag");
 
-    TextureManager::getInstance()->addRectangle("EnemyHP", new Rect());
+    TextureManager::getInstance()->addRectangle("EnemyHP", std::make_unique<Rect>());
     TextureManager::getInstance()->getRectangle("EnemyHP")->initialize("shader/hpbar.vert","shader/hpbar.frag");
 
     /*for(auto const &part : TextureManager::getInstance()->getParticle("DragonFire")){

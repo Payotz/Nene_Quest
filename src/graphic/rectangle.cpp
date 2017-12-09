@@ -16,7 +16,7 @@ float vertices_[] = {
 };
 
 Rect::Rect(){
-    shader = new Shader();
+    shader = std::make_unique<Shader>();
 }
 
 Rect::~Rect(){
@@ -72,6 +72,6 @@ void Rect::Test(){
     texture->Reset();
     glBindVertexArray(0);
 }
-Shader* Rect::getShader(){
-    return shader;
+std::unique_ptr<Shader> Rect::getShader(){
+    return std::move(shader);
 }
