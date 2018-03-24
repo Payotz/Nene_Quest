@@ -1,6 +1,6 @@
 CXX = g++
 CPPFLAGS = -c -std=c++17 -static-libstdc++
-LIB_DIR = D:/msys32/mingw64/lib
+LIB_DIR = /usr/lib/
 OBJ_LIST = game.o main.o texture.o shader.o sprite.o rectangle.o particle.o TextureManager.o StateMachine.o FirstState.o GameObjectManager.o Player.o Enemy.o
 LIB_LIST = -lSDL2 -lgl3w -lSDL2_image 
 

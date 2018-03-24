@@ -3,16 +3,12 @@ SDL_Window* window;
 SDL_GLContext context;
 
 void Game::initialize(){
-    /* Set OpenGL version to 3.3
-        SDL_GL_CONTEXT_MAJOR_VERSION = 3.0
-        SDL_GL_CONTEXT_MINOR_VERSION = 0.3
-        Result = 3.3
-    */
+    /* Initialize SDL */
+    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,3);
     
-    /* Initialize SDL */
-    SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow("Hello World!",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,800,600,SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     if(window == NULL){
         std::cout << "Window not created! : " << SDL_GetError() << std::endl;
@@ -35,10 +31,10 @@ void Game::initialize(){
         std::cout << "GL3W cannot be initialized! : " << std::endl;
         return;
     }
-    if(!gl3wIsSupported(3,3)){
+    /*if(!gl3wIsSupported(3,0)){
         std::cout << "OpenGL 3.3 is not supported" << std::endl;
         return;
-    }
+    }*/
     std::cout << "[INFORMATION]OpenGL Version supported : " << glGetString(GL_VERSION) << std::endl;
     SDL_GL_SetSwapInterval(1);
     isRunning = true;
