@@ -1,18 +1,14 @@
 #pragma once
 
-#if _WIN32
-#include <gl/gl3w.h>
-#include <windows.h>
-#elif __linux__
-#include <GL/gl3w.h>
-#else
-#endif
 
+#include <GL/gl3w.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <glm/glm.hpp>
-#include "graphic/sprite.h"
-#include "manager/StateMachine.h"
+#include <iostream>
+#include <memory>
+
+#include "state/FirstState.h"
+
 
 
 class Game{

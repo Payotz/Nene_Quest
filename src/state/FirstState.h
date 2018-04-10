@@ -2,10 +2,6 @@
 
 #include <SDL2/SDL.h>
 
-#include "../manager/GameObjectManager.h"
-#include "../manager/TextureManager.h"
-#include "../object/Player.h"
-#include "../object/Enemy.h"
 #include "State.h"
 
 class FirstState : public State{
