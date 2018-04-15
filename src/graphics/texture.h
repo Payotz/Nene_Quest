@@ -1,6 +1,9 @@
 #pragma once
 
-#include "GL/gl3w.h"
+#include <GL/gl3w.h>
+#include <glm/glm.hpp>
+
+
 
 #include <string>
 #include <SDL2/SDL.h>

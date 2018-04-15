@@ -2,6 +2,8 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <glm/glm.hpp>
+
 
 #include "shader.h"
 #include "texture.h"
@@ -17,4 +19,6 @@ class Sprite{
     private:
         std::unordered_map<std::string,std::shared_ptr<Shader>> shader_list;
         std::unordered_map<std::string,std::shared_ptr<Texture>> texture_list;
+        GLuint VAO;
+        GLuint VBO;
 };
