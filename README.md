@@ -1,4 +1,4 @@
-NENE Quest
+NENE Quest (REFACTOR)
 ==================
 
 ![Screenshot](http://i.imgur.com/NhP9gp1.png "Game on the left, Anime episode on the right")
@@ -9,6 +9,8 @@ NENE Quest
 This is my attempt at recreating "Nene Quest", a video game made by the anime character "Sakura Nene". I wrote this to learn more about OpenGL, SDL and C++.
 
 This video game can be seen in New Game S2 - Episode 6.
+
+This is the refactor branch. I'm currently refactoring it to be less messy and to work properly.
 
 ## Dependencies
 
