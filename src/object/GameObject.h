@@ -1,13 +1,21 @@
-#ifndef GAMEOBJ_
-#define GAMEOBJ_
+#pragma once
 
 #include <iostream>
 #include <glm/glm.hpp>
 #include <SDL2/SDL.h>
-/* This is gonna be a long one, I bet */
+#include <memory>
+
+#include "../graphics/sprite.h"
+
+
 class GameObject{
     public:
-        GameObject();
+        void Draw();
+
+        GameObject(std::string spriteName, std::string shaderName);
         ~GameObject();
+    private:
+        int posx;
+        int posy;
+        std::make_unique<Sprite> sprite;
 };
-#endif

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include "../object/GameObject.h"
+
 class State{
 
     public:
@@ -8,8 +11,6 @@ class State{
         virtual void update() = 0;
         virtual void render() = 0;
         virtual void exit() = 0;
-        virtual bool getRestartFlag() = 0;
-        virtual bool getIsRunning() = 0;
         virtual ~State() {}
     private:
         bool restartFlag;

@@ -11,10 +11,8 @@ class FirstState : public State{
         void update();
         void render();
         void exit();
-        bool getRestartFlag();
-        bool getIsRunning();
-        FirstState();
-        ~FirstState();
+        FirstState(){}
+        ~FirstState(){}
     private:
         static bool restartFlag;
         static bool isRunning;

@@ -11,6 +11,7 @@
 bool FirstState::isRunning = true;
 bool FirstState::restartFlag = false;
 
+std::unique_ptr<GameObject> sample;
 
 inline double degtoRad(int degree){
     return static_cast<double>((degree * 3.14) / 180);
@@ -18,13 +19,6 @@ inline double degtoRad(int degree){
 inline int radtoDeg(double radian){
     return static_cast<int>((radian * 180) / 3.14);
 }
-
-FirstState::FirstState(){
-}
-
-FirstState::~FirstState(){
-}
-
 void FirstState::onEnter(){
 
 }
@@ -41,11 +35,4 @@ void FirstState::update(){
 
 void FirstState::exit(){
 
-}
-
-bool FirstState::getRestartFlag(){
-    return restartFlag;
-}
-bool FirstState::getIsRunning(){
-    return isRunning;
 }
