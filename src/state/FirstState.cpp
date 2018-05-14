@@ -24,16 +24,10 @@ void FirstState::onEnter(){
 }
 
 void FirstState::handleEvents(){
-    SDL_Event event;
-    SDL_PollEvent(&event);
-
-    if(event.type == SDL_QUIT){
-        isRunning = false;
-    }
 }
 
 void FirstState::render(){
-    sample->Draw("default","default",glm::vec2(300,300),glm::vec2(300,300),0,1);
+    sample->Draw("default","default",glm::vec2(0,0),glm::vec2(300,300),0,1);
 }
 
 void FirstState::update(){
