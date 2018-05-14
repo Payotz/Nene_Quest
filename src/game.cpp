@@ -24,6 +24,7 @@ void Game::initialize(){
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
 
     state = std::make_unique<FirstState>();
+    state->onEnter();
 }
 
 void Game::handleEvents(){
@@ -32,6 +33,8 @@ void Game::handleEvents(){
 
 void Game::update(){
     state->update();
+    isRunning = state->isRunning;
+
 }
 
 void Game::render(){

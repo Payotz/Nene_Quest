@@ -13,8 +13,8 @@ class FirstState : public State{
         void exit();
         FirstState(){}
         ~FirstState(){}
+        static bool isRunning;
     private:
         static bool restartFlag;
-        static bool isRunning;
 };
 

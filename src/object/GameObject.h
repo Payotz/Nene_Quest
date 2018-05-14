@@ -10,12 +10,12 @@
 
 class GameObject{
     public:
-        void Draw();
+        void Draw(std::string shaderKey, std::string textureKey,glm::vec2 pos,glm::vec2 size,GLfloat rotate,GLfloat z_depth);
 
         GameObject(std::string spriteName, std::string shaderName);
         ~GameObject();
     private:
         int posx;
         int posy;
-        std::make_unique<Sprite> sprite;
+        std::unique_ptr<Sprite> sprite;
 };

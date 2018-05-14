@@ -20,14 +20,20 @@ inline int radtoDeg(double radian){
     return static_cast<int>((radian * 180) / 3.14);
 }
 void FirstState::onEnter(){
-
+    sample = std::make_unique<GameObject>("img/boar.png","shader/default");
 }
 
 void FirstState::handleEvents(){
-    const Uint8* keystate = SDL_GetKeyboardState(NULL);
+    SDL_Event event;
+    SDL_PollEvent(&event);
+
+    if(event.type = SDL_QUIT){
+        isRunning = false;
+    }
 }
 
 void FirstState::render(){
+    sample->Draw("default","default",glm::vec2(300,300),glm::vec2(300,300),0,1);
 }
 
 void FirstState::update(){

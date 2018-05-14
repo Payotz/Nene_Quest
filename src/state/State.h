@@ -12,7 +12,7 @@ class State{
         virtual void render() = 0;
         virtual void exit() = 0;
         virtual ~State() {}
+        bool isRunning;
     private:
         bool restartFlag;
-        bool isRunning;
 };
