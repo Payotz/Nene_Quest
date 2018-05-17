@@ -3,8 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <windows.h>
-#include <gl/gl3w.h>
+#include <GL/gl3w.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>

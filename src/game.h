@@ -3,8 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <windows.h>
-#include <gl/gl3w.h>
+#include <GL/gl3w.h>
 #include <glm/glm.hpp>
 #include "graphic/sprite.h"
 #include "manager/StateMachine.h"

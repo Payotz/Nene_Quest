@@ -43,7 +43,7 @@ FirstState::FirstState(){
     skypos = glm::vec2(0,200);
     mountainpos = glm::vec2(0,300);
 
-    currentEnemy = 2;
+    currentEnemy = 1;
 }
 
 FirstState::~FirstState(){
