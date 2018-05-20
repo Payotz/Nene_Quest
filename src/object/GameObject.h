@@ -13,13 +13,19 @@ class GameObject{
         void Draw(std::string shaderKey, std::string textureKey);
         void setPosition(int x, int y);
         void setSize(int x, int y);
+        void setHP(int value);
+        void setMaxHP(int value);
         bool collideWith(GameObject *object);
         glm::vec2 getPosition();
         glm::vec2 getSize();
         SDL_Rect* getObjectRect();
+        int getHP();
+        int getMaxHP();
         GameObject(std::string spriteName, std::string shaderName);
         ~GameObject();
     private:
         SDL_Rect objectRect;
+        int HP;
+        int maxHP;
         std::unique_ptr<Sprite> sprite;
 };

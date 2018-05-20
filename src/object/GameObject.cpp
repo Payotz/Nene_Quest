@@ -14,6 +14,13 @@ void GameObject::setSize(int w, int h){
     objectRect.h = h;
 }
 
+void GameObject::setHP(int value){
+    HP = value;
+}
+void GameObject::setMaxHP(int value){
+    maxHP = value;
+}
+
 bool GameObject::collideWith(GameObject *object){
     return SDL_HasIntersection(&objectRect,object->getObjectRect());
 }
@@ -28,6 +35,14 @@ glm::vec2 GameObject::getSize(){
 
 SDL_Rect* GameObject::getObjectRect(){
     return &objectRect;
+}
+
+int GameObject::getHP(){
+    return HP;
+}
+
+int GameObject::getMaxHP(){
+    return maxHP;
 }
 
 GameObject::GameObject(std::string spriteName, std::string shaderName){
