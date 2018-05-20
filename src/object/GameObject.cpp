@@ -1,25 +1,33 @@
 #include "GameObject.h"
 
 void GameObject::Draw(std::string shaderKey, std::string textureKey){
-    sprite->Draw(shaderKey,textureKey,this->position,this->size,0,0);
+    sprite->Draw(shaderKey,textureKey,glm::vec2(objectRect.x,objectRect.y),glm::vec2(objectRect.w,objectRect.h),0,0);
 }
 
 void GameObject::setPosition(int x, int y){
-    position.x = x;
-    position.y = y;
+    objectRect.x = x;
+    objectRect.y = y;
 }
 
-void GameObject::setSize(int x, int y){
-    size.x = x;
-    size.y = y;
+void GameObject::setSize(int w, int h){
+    objectRect.w = w;
+    objectRect.h = h;
+}
+
+bool GameObject::collideWith(GameObject *object){
+    return SDL_HasIntersection(&objectRect,object->getObjectRect());
 }
 
 glm::vec2 GameObject::getPosition(){
-    return position;
+    return glm::vec2(objectRect.x,objectRect.y);
 }
 
 glm::vec2 GameObject::getSize(){
-    return size;
+    return glm::vec2(objectRect.w,objectRect.h);
+}
+
+SDL_Rect* GameObject::getObjectRect(){
+    return &objectRect;
 }
 
 GameObject::GameObject(std::string spriteName, std::string shaderName){

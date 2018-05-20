@@ -46,7 +46,6 @@ void Game::handleEvents(){
 
 void Game::update(){
     state->update();
-
 }
 
 void Game::render(){
