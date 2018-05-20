@@ -21,13 +21,16 @@ inline int radtoDeg(double radian){
 }
 void FirstState::onEnter(){
     sample = std::make_unique<GameObject>("img/boar.png","shader/default");
+    sample->setPosition(300,300);
+    sample->setSize(200,200);
+    
 }
 
 void FirstState::handleEvents(){
 }
 
 void FirstState::render(){
-    sample->Draw("default","default",glm::vec2(0,0),glm::vec2(300,300),0,1);
+    sample->Draw("default","default");
 }
 
 void FirstState::update(){

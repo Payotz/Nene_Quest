@@ -51,6 +51,7 @@ Shader::Shader(std::string fileName){
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    shaderProgram = glCreateProgram();
 
     const GLchar* vertexDummy = vertexSource.c_str();
     const GLchar* fragDummy = fragSource.c_str();

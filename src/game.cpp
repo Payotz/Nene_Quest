@@ -4,6 +4,10 @@ SDL_GLContext context;
 
 std::unique_ptr<State> state;
 
+void errorWrite(GLenum source, GLenum type, GLenum id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam){
+    std::cout << message << std::endl;
+}
+
 void Game::initialize(){
     SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -22,10 +26,13 @@ void Game::initialize(){
     }
     gl3wInit();
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(errorWrite,NULL);
 
     state = std::make_unique<FirstState>();
     state->onEnter();
 }
+
 
 void Game::handleEvents(){
     state->handleEvents();
@@ -44,6 +51,7 @@ void Game::update(){
 
 void Game::render(){
     glClearColor(255,255,255,255);
+    glClear(GL_COLOR_BUFFER_BIT);
     state->render();
     SDL_GL_SwapWindow(window);
 }

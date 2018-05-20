@@ -2,15 +2,15 @@
 
 glm::mat4 projection_ = glm::ortho(0.0f,800.0f,600.0f,0.0f,-1.0f,1.0f);
 
-GLfloat vertices_[] = {
-    0.0f, 1.0f, 0.0f,
-    1.0f, 0.0f, 1.0f,
-    0.0f, 0.0f, 0.0f, 
-
-    0.0f, 1.0f, 0.0f,
-    1.0f, 1.0f, 1.0f,
-    1.0f, 0.0f, 1.0f
-};
+GLfloat vertices[] = {
+        0.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 0.0f, 
+    
+        0.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, 1.0f, 1.0f, 1.0f,
+        1.0f, 0.0f, 1.0f, 0.0f
+};  
 
 void Sprite::addShader(std::string key, std::string fileName){
     shader_list[key] = std::make_unique<Shader>(fileName);
@@ -43,6 +43,10 @@ void Sprite::Draw(std::string shaderKey, std::string textureKey,glm::vec2 pos,gl
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES,0,6);
+    
+    glBindVertexArray(0);
+    shader_list[shaderKey]->Reset();
+    texture_list[textureKey]->Reset();
 }
 Sprite::Sprite(){
     glGenVertexArrays(1,&VAO);
@@ -50,8 +54,8 @@ Sprite::Sprite(){
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
 
-    glBufferData(GL_ARRAY_BUFFER,sizeof(vertices_),vertices_,GL_STATIC_DRAW);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3 * sizeof(GL_FLOAT),(GLvoid*) 0);
+    glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
+    glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,4 * sizeof(GL_FLOAT),(GLvoid*) 0);
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(0);
