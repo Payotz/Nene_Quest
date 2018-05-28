@@ -65,6 +65,13 @@ void initEnemyObjects();
 inline double degtoRad(int degree);
 inline int radtoDeg(double radian);
 
+void backgroundScrolling();
+void player1HPLimiter();
+void player1PositionLimiter();
+void player1AttackLogic(int playerDamage);
+void player1ReceiveDamageLogic();
+void boarAttackLogic();
+
 void FirstState::onEnter(bool twoPlayer){
     initPlayerObjects(false);
     initRenderOnlyObjects();
@@ -121,7 +128,8 @@ void FirstState::render(){
     }else{
         player1->Draw("default","default");
     }
-    if(enemyState == (int)enumEnemyState::Boar)
+
+    if(enemyState == (int)enumEnemyState::Boar){
         if (enemyStatus == (int)enumEnemyStatus::isAttacked)
             if((SDL_GetTicks() % 2) == 0)
                 ;
@@ -129,8 +137,10 @@ void FirstState::render(){
                 boar->Draw("default","default");
         else
             boar->Draw("default","default");
-    else if(enemyState == (int)enumEnemyState::Dragon)
+    }
+    else if(enemyState == (int)enumEnemyState::Dragon){
         dragon->Draw("default","default");
+    }
 
     player1HPBorder->Draw("default","default");
     player1HP->Draw("default","default");
@@ -141,49 +151,27 @@ void FirstState::render(){
 }
 
 void FirstState::update(){
-    if(sky->getPosition().x < 0)
-        sky->setPosition(1000,sky->getPosition().y);
-    else
-        sky->setPosition(sky->getPosition().x - 1,sky->getPosition().y);
+    const int playerDamage = 25;
 
-    if(mountain->getPosition().x < 0)
-        mountain->setPosition(800,mountain->getPosition().y);
-    else
-        mountain->setPosition(mountain->getPosition().x - 5,mountain->getPosition().y);
-
-    if(player1State == (int)enumPlayerState::Attack && enemyStatus == (int)enumEnemyStatus::Neutral){
-        if (player1->collideWith(boar.get())){
-            boar->setHP(boar->getHP() - 1);
-            enemyStatus = (int)enumEnemyStatus::isAttacked;
-            enemyInvulnerabilityTimer = SDL_GetTicks();
-        }
-    }
-    if(enemyStatus ==(int) enumEnemyStatus::isAttacked){
-        if((SDL_GetTicks() - enemyInvulnerabilityTimer) >= 3000){
-            enemyStatus = (int)enumEnemyStatus::Neutral;
-            enemyInvulnerabilityTimer = 0;
-        }
-    }
-
+    player1AttackLogic(playerDamage);
+    boarAttackLogic();
+    player1ReceiveDamageLogic();
     player1->setPosition(player1->getPosition().x + player1Velocity.x, player1->getPosition().y + player1Velocity.y);
 
-    if(player1->getHP() < 0)
-        player1->setHP(player1->getMaxHP());
-    if(player1->getPosition().x < 50)
-        player1->setPosition(50,player1->getPosition().y);
-    if(player1->getPosition().x > 750)
-        player1->setPosition(750,player1->getPosition().y);
-    if(player1->getPosition().y < 250)
-        player1->setPosition(player1->getPosition().x,250);
-    if(player1->getPosition().y > 550)
-        player1->setPosition(player1->getPosition().x,550);
-    if(player1->getHP() < 0)
-        player1->setHP(player1->getMaxHP());
-    player1HP->setSize(int((player1->getHP()/player1->getMaxHP()) * 900),20);
-    player1HPBorder->setSize(920,25);
-    enemyHPBorder->setSize(920,25);
-    enemyHP->setSize(int((boar->getHP()/boar->getMaxHP()) * 900),20);
-    if(boar->getHP() < 0){
+    backgroundScrolling();
+    player1HPLimiter();
+    player1PositionLimiter();
+
+    float enemyDummyHP;
+    float playerDummyHP;
+
+    enemyDummyHP = ((float)boar->getHP())/boar->getMaxHP();
+    playerDummyHP = ((float)player1->getHP())/player1->getMaxHP();
+    player1HP->setSize(int(playerDummyHP * 280),20);
+    player1HPBorder->setSize(350,25);
+    enemyHPBorder->setSize(350,25);
+    enemyHP->setSize(int(enemyDummyHP * 280),20);
+    if(boar->getHP() <= 0){
         boar->setHP(boar->getMaxHP());
     }
 }
@@ -237,14 +225,13 @@ void initRenderOnlyObjects(){
     ground->setPosition(0,500);
     ground->setSize(2000,400);
 
-    player1HP->setSize(int(player1->getHP()/player1->getMaxHP()),50);
-    player1HPBorder->setSize(int((player1->getHP()/player1->getMaxHP()) + 10),50);
+    player1HPBorder->setSize(int(((float)(player1->getHP())/player1->getMaxHP()) * 280),50);
     player1Icon->setSize(32,32);
-    player1HP->setPosition(47,50);
-    player1HPBorder->setPosition(47,50);
+    player1HP->setPosition(0,50);
+    player1HPBorder->setPosition(0,50);
     player1Icon->setPosition(30,50);
     enemyHPBorder->setPosition(0,150);
-    enemyHP->setPosition(30,150);
+    enemyHP->setPosition(0,150);
     enemyIcon->setSize(32,32);
     enemyIcon->setPosition(30,150);
 }
@@ -254,11 +241,78 @@ void initEnemyObjects(){
     dragon = std::make_unique<GameObject>("img/dragon.png","shader/default");
     boar->setPosition(300,300);
     boar->setSize(128,128);
-    boar->setHP(1000);
-    boar->setMaxHP(1000);
+    boar->setHP(100);
+    boar->setMaxHP(100);
 
     dragon->setPosition(700,400);
     dragon->setSize(512,512);
+}
+
+void player1PositionLimiter(){
+    if(player1->getPosition().x < 50)
+        player1->setPosition(50,player1->getPosition().y);
+    if(player1->getPosition().x > 750)
+        player1->setPosition(750,player1->getPosition().y);
+    if(player1->getPosition().y < 250)
+        player1->setPosition(player1->getPosition().x,250);
+    if(player1->getPosition().y > 550)
+        player1->setPosition(player1->getPosition().x,550);
+}
+
+void player1HPLimiter(){
+    if(player1->getHP() < 0)
+        player1->setHP(player1->getMaxHP());
+}
+
+void backgroundScrolling(){
+    if(sky->getPosition().x < 0)
+        sky->setPosition(1000,sky->getPosition().y);
+    else
+        sky->setPosition(sky->getPosition().x - 1,sky->getPosition().y);
+
+    if(mountain->getPosition().x < 0)
+        mountain->setPosition(800,mountain->getPosition().y);
+    else
+        mountain->setPosition(mountain->getPosition().x - 5,mountain->getPosition().y);
+}
+
+void player1AttackLogic(int playerDamage){
+    if(player1State == (int)enumPlayerState::Attack && enemyStatus == (int)enumEnemyStatus::Neutral){
+        if(enemyState == (int)enumEnemyState::Boar){
+            if (player1->collideWith(boar.get())){
+                boar->setHP(boar->getHP() - playerDamage);
+            }
+        }
+        else if(enemyState == (int) enumEnemyState::Dragon){
+            if(player1->collideWith(dragon.get())){
+                dragon->setHP(dragon->getHP() - playerDamage);
+            }
+        }
+        enemyStatus = (int)enumEnemyStatus::isAttacked;
+        enemyInvulnerabilityTimer = SDL_GetTicks();
+    }
+
+    if(enemyStatus ==(int) enumEnemyStatus::isAttacked){
+        if((SDL_GetTicks() - enemyInvulnerabilityTimer) >= 3000){
+            enemyStatus = (int)enumEnemyStatus::Neutral;
+            enemyInvulnerabilityTimer = 0;
+        }
+    }
+}
+
+void player1ReceiveDamageLogic(){
+    if(player1State ==(int)enumPlayerState::Neutral && enemyStatus ==(int) enumEnemyStatus::Neutral){
+        if(player1->collideWith(boar.get())){
+            player1->setHP(player1->getHP() - 2);
+        }
+    }
+}
+
+void boarAttackLogic(){
+    if(boar->getPosition().x < 0){
+        boar->setPosition(800,player1->getPosition().y);
+    }
+    boar->setPosition(boar->getPosition().x -20, boar->getPosition().y);
 }
 
 inline double degtoRad(int degree){
