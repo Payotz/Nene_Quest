@@ -28,34 +28,37 @@ void Game::initialize(){
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(errorWrite,NULL);
-
-    state = std::make_unique<FirstState>();
-    state->onEnter();
+    state_list["game"] = std::make_unique<FirstState>();
+    state_list["menu"] = std::make_unique<MainMenu>();
+    setState("menu");
 }
 
 
 void Game::handleEvents(){
-    state->handleEvents();
-    SDL_Event event;
-    SDL_PollEvent(&event);
-
-    if(event.type == SDL_QUIT){
-        isRunning = false;
-    }
+    currentState->handleEvents();
 }
 
 void Game::update(){
-    state->update();
+    isRunning = currentState->getIsRunning();
+    if(currentState->getIsChangeState()){
+        setState(currentState->getChangeStateKey());
+    }
+    currentState->update();
 }
 
 void Game::render(){
     glClearColor(255,255,255,255);
     glClear(GL_COLOR_BUFFER_BIT);
-    state->render();
+    currentState->render();
     SDL_GL_SwapWindow(window);
 }
 
 void Game::cleanup(){
     IMG_Quit();
     SDL_Quit();
+}
+
+void Game::setState(std::string key){
+    currentState = state_list[key].get();
+    currentState->onEnter(false);
 }

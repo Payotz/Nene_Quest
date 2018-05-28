@@ -21,6 +21,13 @@ void GameObject::setMaxHP(int value){
     maxHP = value;
 }
 
+bool GameObject::pointInRect(glm::vec2 pos){
+    SDL_Point dummy;
+    dummy.x = pos.x;
+    dummy.y = pos.y;
+    return SDL_PointInRect(&dummy,getObjectRect());
+}
+
 bool GameObject::collideWith(GameObject *object){
     return SDL_HasIntersection(&objectRect,object->getObjectRect());
 }
@@ -35,6 +42,10 @@ glm::vec2 GameObject::getSize(){
 
 SDL_Rect* GameObject::getObjectRect(){
     return &objectRect;
+}
+
+Sprite* GameObject::getSprite(){
+    return sprite.get();
 }
 
 int GameObject::getHP(){

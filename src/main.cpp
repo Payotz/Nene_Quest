@@ -12,9 +12,9 @@ int main(int argc, char *argv[]){
         game->update();
         game->render();
         
-        //fpsTicks = SDL_GetTicks() - fpsTicks;
-        //if(fpsTicks < 1000 / FRAMES_PER_SECOND)
-        //    SDL_Delay((1000/ FRAMES_PER_SECOND) - fpsTicks);
+        fpsTicks = SDL_GetTicks() - fpsTicks;
+        if(fpsTicks < 1000 / FRAMES_PER_SECOND)
+            SDL_Delay((1000/ FRAMES_PER_SECOND) - fpsTicks);
     }
     game->cleanup();
     return 0;

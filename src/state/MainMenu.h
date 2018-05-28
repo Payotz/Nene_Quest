@@ -2,14 +2,14 @@
 
 #include "State.h"
 
-class FirstState : public State{
+class MainMenu : public State{
     public:
         void onEnter(bool twoPlayer);
         void handleEvents();
         void update();
         void render();
         void exit();
-        ~FirstState(){}
+        ~MainMenu(){}
         bool getIsRunning();
         bool getIsChangeState();
         std::string getChangeStateKey();
@@ -19,3 +19,4 @@ class FirstState : public State{
         bool isChangeState;
         std::string changeStateKey;
 };
+

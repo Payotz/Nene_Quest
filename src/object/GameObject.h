@@ -16,6 +16,8 @@ class GameObject{
         void setHP(int value);
         void setMaxHP(int value);
         bool collideWith(GameObject *object);
+        bool pointInRect(glm::vec2 pos);
+        Sprite* getSprite();
         glm::vec2 getPosition();
         glm::vec2 getSize();
         SDL_Rect* getObjectRect();
