@@ -10,7 +10,8 @@
 
 enum class enumEnemyState{
     Boar,
-    Dragon
+    Dragon,
+    NONE
 };
 
 enum class enumEnemyStatus{
@@ -91,7 +92,7 @@ void FirstState::handleEvents(){
     const int playerSpeed = 6;
     if(keyState[SDL_SCANCODE_Z])
         player1State = (int)enumPlayerState::Attack;
-    if(enemyState == (int)enumPlayerState::Neutral){
+    if(player1State == (int)enumPlayerState::Neutral){
         if(keyState[SDL_SCANCODE_DOWN]){
             player1State = (int)enumPlayerState::Moving;
             player1Velocity.y = playerSpeed;
@@ -143,24 +144,27 @@ void FirstState::render(){
         }else{
             boar->Draw("default","default");
         }
+        enemyHPBorder->Draw("default","default");
+        enemyHP->Draw("default","default");
+        enemyIcon->Draw("default","default");
     }else if(enemyState == (int)enumEnemyState::Dragon){
         if (enemyStatus ==(int)enumEnemyStatus::isAttacked){
             if((SDL_GetTicks() % 2)== 0){
                 ;
             }else{
-                boar->Draw("default","default");
+                dragon->Draw("default","default");
             }
         }else{
-            boar->Draw("default","default");
+            dragon->Draw("default","default");
         }
+        enemyHPBorder->Draw("default","default");
+        enemyHP->Draw("default","default");
+        enemyIcon->Draw("default","dragon");
     }
 
     player1HPBorder->Draw("default","default");
     player1HP->Draw("default","default");
-    enemyHPBorder->Draw("default","default");
-    enemyHP->Draw("default","default");
     player1Icon->Draw("default","default");
-    enemyIcon->Draw("default","default");
 }
 
 void FirstState::update(){
@@ -170,7 +174,8 @@ void FirstState::update(){
     enemyReceiveDamageLogic();
     enemyAttackLogic();
     playerReceiveDamageLogic();
-    player1->setPosition(player1->getPosition().x + player1Velocity.x, player1->getPosition().y + player1Velocity.y);
+    if(player1State ==(int)enumPlayerState::Moving)
+        player1->setPosition(player1->getPosition().x + player1Velocity.x, player1->getPosition().y + player1Velocity.y);
 
     backgroundScrolling();
     playerHPLimiter();
@@ -179,16 +184,24 @@ void FirstState::update(){
     float enemyDummyHP;
     float playerDummyHP;
 
-    enemyDummyHP = ((float)boar->getHP())/boar->getMaxHP();
+    if(enemyState == (int) enumEnemyState::Boar){
+        enemyDummyHP = ((float)boar->getHP())/boar->getMaxHP();
+    }else if(enemyState == (int)enumEnemyState::Dragon){
+        enemyDummyHP = ((float)dragon->getHP())/dragon->getMaxHP();
+    }
     playerDummyHP = ((float)player1->getHP())/player1->getMaxHP();
     player1HP->setSize(int(playerDummyHP * 280),20);
     player1HPBorder->setSize(350,25);
     enemyHPBorder->setSize(350,25);
     enemyHP->setSize(int(enemyDummyHP * 280),20);
     if(boar->getHP() <= 0){
+        enemyStatus = (int)enumEnemyStatus::Neutral;
         enemyState = (int)enumEnemyState::Dragon;
     }
-    std::cout << player1AttackTimer << std::endl;
+    if(dragon->getHP() <= 0){
+        enemyState = (int)enumEnemyStatus::Neutral;
+        enemyState = (int)enumEnemyState::Dragon;
+    }
 }
 
 void FirstState::exit(){
@@ -231,6 +244,8 @@ void initRenderOnlyObjects(){
     player1Icon = std::make_unique<GameObject>("img/pink_knight_icon.png","shader/default");
     enemyIcon = std::make_unique<GameObject>("img/boar.png","shader/default");
 
+    enemyIcon->getSprite()->addTexture("dragon","img/dragon.png");
+
     sky->setPosition(0,200);
     sky->setSize(2000,600);
 
@@ -261,6 +276,8 @@ void initEnemyObjects(){
 
     dragon->setPosition(700,400);
     dragon->setSize(512,512);
+    dragon->setHP(300);
+    dragon->setMaxHP(300);
 }
 
 void playerPositionLimiter(){
@@ -319,8 +336,15 @@ void playerAttackLogic(int playerDamage){
 
 void playerReceiveDamageLogic(){
     if(player1State ==(int)enumPlayerState::Neutral && enemyStatus ==(int) enumEnemyStatus::Neutral){
-        if(player1->collideWith(boar.get())){
-            player1->setHP(player1->getHP() - 2);
+        if(enemyState ==(int)enumEnemyState::Boar){
+            if(player1->collideWith(boar.get())){
+                player1->setHP(player1->getHP() - 2);
+            }
+        }
+        else if (enemyState == (int)enumEnemyState::Dragon){
+            if(player1->collideWith(dragon.get())){
+                player1->setHP(player1->getHP() - 2);
+            }
         }
     }
 }
@@ -333,7 +357,7 @@ void enemyAttackLogic(){
         if(enemyStatus != (int) enumEnemyStatus::isAttacked)
             boar->setPosition(boar->getPosition().x -20, boar->getPosition().y);
     }else if (enemyState == (int) enumEnemyState::Dragon){
-
+        
     }
 }
 
